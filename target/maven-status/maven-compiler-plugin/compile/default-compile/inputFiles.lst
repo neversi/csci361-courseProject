@@ -8,6 +8,7 @@
 /home/abdr/Desktop/projects/NU/csci361-courseProject/src/main/java/hotel/model/dto/UserDTO.java
 /home/abdr/Desktop/projects/NU/csci361-courseProject/src/main/java/hotel/helper/HotelJWT.java
 /home/abdr/Desktop/projects/NU/csci361-courseProject/src/main/java/hotel/repository/UserRepositoryPostgres.java
+/home/abdr/Desktop/projects/NU/csci361-courseProject/src/main/java/hotel/model/dto/TokenUserDTO.java
 /home/abdr/Desktop/projects/NU/csci361-courseProject/src/main/java/hotel/model/dto/UserSignupDTO.java
 /home/abdr/Desktop/projects/NU/csci361-courseProject/src/main/java/hotel/MyServlet.java
 /home/abdr/Desktop/projects/NU/csci361-courseProject/src/main/java/hotel/helper/BodyReader.java

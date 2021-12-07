@@ -21,6 +21,8 @@ import org.apache.commons.codec.binary.Base64;
 import hotel.helper.CORSMiddleware;
 import hotel.helper.HotelJWT;
 import hotel.model.User;
+import hotel.model.dto.TokenUserDTO;
+import hotel.model.dto.UserDTO;
 import hotel.service.UserService;
 import hotel.service.UserServiceImpl;
 
@@ -100,8 +102,14 @@ public class LoginServlet extends HttpServlet {
 
             HotelJWT tokens = HotelJWT.getTokens(claims, getServletContext().getInitParameter("jwt-secret"));
 
+            UserDTO uDTO = new UserDTO();
+            uDTO.username = username;
+            uDTO.name = u.getName();
+            uDTO.surname = u.getSurname();
+
+            TokenUserDTO info = new TokenUserDTO(tokens, uDTO);
             try (PrintWriter pw = response.getWriter()) {
-                pw.write(gson.toJson(tokens, HotelJWT.class));
+                pw.write(gson.toJson(info, TokenUserDTO.class));
             } catch (Exception e) {
                 response.sendError(501, e.toString());
                 return;

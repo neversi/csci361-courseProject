@@ -29,7 +29,7 @@ public class User extends ModelSQL {
     
 
     public User(UserSignupDTO uDTO, String salt) {
-        super("users");
+        super("userss");
         this.id = 0L;
         this.name = uDTO.name;
         this.password = uDTO.password;
@@ -39,7 +39,7 @@ public class User extends ModelSQL {
     }
 
     public User() { 
-        super("users");
+        super("userss");
         this.id = 0L;
         this.name = "";
         this.surname = "";
@@ -49,12 +49,12 @@ public class User extends ModelSQL {
     }
 
     public User(String name, String phone) {
-        super("users");
+        super("userss");
         this.name = name;
     }
 
     public User(Long id, String name, String phone, String password) {
-        super("users");
+        super("userss");
         this.name = name;
         this.password = password;
     }
@@ -89,45 +89,11 @@ public class User extends ModelSQL {
         return ps;
     }
 
-    public void setPlaceHolders(PreparedStatement preparedStatement) throws Exception {
-        try {
-            Field[] fields = this.getClass().getDeclaredFields();
-            
-            String seq = preparedStatement.toString();
-            int count = 0;
-            System.out.println(seq);
-
-            for (char c: seq.toCharArray()) {
-                if (c == '?') {
-                    count++;
-                }
-            }
-
-            Map<Integer, String> params = new TreeMap<>();
-            int i;
-            for (Field f : fields) {
-                if ((i = seq.indexOf(f.getName())) != -1 && seq.charAt(i - 1) == ' ') {
-                    System.out.println(i + ": " + f.getName());
-                    params.put(i, f.getName());
-                }
-            }
-
-            if (params.size() != count) {
-                throw new Exception("Incorrect num of params, given: " + count + ", expected: " + params.size());
-            }
-
-            count = 1;
-            for (Integer k : params.keySet()) {
-                preparedStatement.setObject(count++, this.getClass().getDeclaredField(params.get(k)).get(this));
-            }
-
-        } catch (Exception e) {
-            throw new Exception("User.setPlaceHolders:" + e.toString());
-        }
-    }
-
     public String getName() { return this.name; }
     public void setName(String name) { this.name = name; }
+
+    public String getSurname() { return this.surname; }
+    public void setSurname(String name) { this.surname = name; }
 
     public String getUsername() { return this.username; }
     public void setUsername(String phone) { this.username = phone; }

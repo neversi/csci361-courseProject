@@ -25,6 +25,8 @@ import hotel.helper.BodyReader;
 import hotel.helper.CORSMiddleware;
 import hotel.helper.HotelJWT;
 import hotel.model.User;
+import hotel.model.dto.TokenUserDTO;
+import hotel.model.dto.UserDTO;
 import hotel.model.dto.UserSignupDTO;
 import hotel.service.UserService;
 import hotel.service.UserServiceImpl;
@@ -102,13 +104,14 @@ public class Signin extends HttpServlet {
 
             HotelJWT tokens = HotelJWT.getTokens(claims, getServletContext().getInitParameter("jwt-secret"));
 
+            uDTO.password = "";
+            TokenUserDTO info = new TokenUserDTO(tokens, (UserDTO) uDTO);
             try (PrintWriter pw = response.getWriter()) {
-                pw.write(gson.toJson(tokens, HotelJWT.class));
+                pw.write(gson.toJson(info, TokenUserDTO.class));
             } catch (Exception e) {
                 response.sendError(501, e.toString());
                 return;
             }
-            response.setHeader("Content-type", "application/json; charset=UTF-8");
             response.setStatus(201);
     }
 }

@@ -35,7 +35,7 @@ public class HotelJWT {
 
     public static Map<String, Claim> verifyToken(String token, String secret) throws JWTVerificationException {
         try {
-            Algorithm algorithm = Algorithm.HMAC256("secret");
+            Algorithm algorithm = Algorithm.HMAC256(secret);
             JWTVerifier verifier = JWT.require(algorithm).acceptExpiresAt(10).build();
 
             DecodedJWT jwt = verifier.verify(token);

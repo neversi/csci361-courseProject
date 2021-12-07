@@ -1,0 +1,1 @@
+select G.name, R.room_number from guest G, reservation R where R.guest_id = G.guest_id;
