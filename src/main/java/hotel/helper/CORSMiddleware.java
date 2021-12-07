@@ -1,7 +1,5 @@
 package hotel.helper;
 
-package hotel.helper;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,6 +19,6 @@ public class CORSMiddleware {
         throws ServletException, IOException {
             response.setHeader("Access-Control-Allow-Origin", "*");
             response.setHeader("Access-Control-Allow-Methods", "GET, POST, UPDATE");
-
+            response.setHeader("Content-type", "application/json; charset=UTF-8");
         }
     }

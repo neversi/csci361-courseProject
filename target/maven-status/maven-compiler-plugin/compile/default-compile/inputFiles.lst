@@ -5,7 +5,6 @@
 /home/abdr/Desktop/projects/NU/csci361-courseProject/src/main/java/hotel/LoginServlet.java
 /home/abdr/Desktop/projects/NU/csci361-courseProject/src/main/java/hotel/helper/AuthMiddleware.java
 /home/abdr/Desktop/projects/NU/csci361-courseProject/src/main/java/hotel/service/UserServiceImpl.java
-/home/abdr/Desktop/projects/NU/csci361-courseProject/src/main/java/hotel/AuthMiddleware.java
 /home/abdr/Desktop/projects/NU/csci361-courseProject/src/main/java/hotel/model/dto/UserDTO.java
 /home/abdr/Desktop/projects/NU/csci361-courseProject/src/main/java/hotel/helper/HotelJWT.java
 /home/abdr/Desktop/projects/NU/csci361-courseProject/src/main/java/hotel/repository/UserRepositoryPostgres.java

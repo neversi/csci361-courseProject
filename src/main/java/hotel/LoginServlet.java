@@ -13,8 +13,12 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.google.gson.Gson;
+
 import org.apache.commons.codec.binary.Base64;
 
+import hotel.helper.CORSMiddleware;
 import hotel.helper.HotelJWT;
 import hotel.model.User;
 import hotel.service.UserService;
@@ -34,6 +38,8 @@ public class LoginServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+            CORSMiddleware.corsAllow(request, response);
+            Gson gson = new Gson();
             String basicAuth = request.getHeader("Authorization");
             if (basicAuth == null) {
                 response.sendError(401, "Authorization is not provided");
@@ -90,19 +96,16 @@ public class LoginServlet extends HttpServlet {
 
             Map<String, Object> claims = new HashMap<>();
             claims.put("username", username);
-            claims.put("role", new String[]{"user", "manager"});
+            claims.put("name", u.getName());
 
-            String[] tokens = HotelJWT.getTokens(claims, getServletContext().getInitParameter("jwt-secret"));
-            if (tokens.length == 0) {
-                response.sendError(500, "Error while creating tokens");
+            HotelJWT tokens = HotelJWT.getTokens(claims, getServletContext().getInitParameter("jwt-secret"));
+
+            try (PrintWriter pw = response.getWriter()) {
+                pw.write(gson.toJson(tokens, HotelJWT.class));
+            } catch (Exception e) {
+                response.sendError(501, e.toString());
                 return;
             }
-            Cookie access_token = new Cookie("access_token", tokens[0]);
-            Cookie refresh_token = new Cookie("refresh_token", tokens[1]);
-
-            response.addCookie(access_token);
-            response.addCookie(refresh_token);
-
             response.setStatus(201);
     }
 

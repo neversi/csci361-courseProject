@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import javax.swing.plaf.synth.SynthScrollPaneUI;
+import javax.swing.text.html.HTMLDocument.HTMLReader.PreAction;
+
 import hotel.model.dto.UserDTO;
 import hotel.model.dto.UserSignupDTO;
 
@@ -88,22 +91,23 @@ public class User extends ModelSQL {
 
     public void setPlaceHolders(PreparedStatement preparedStatement) throws Exception {
         try {
-            
             Field[] fields = this.getClass().getDeclaredFields();
             
             String seq = preparedStatement.toString();
             int count = 0;
+            System.out.println(seq);
 
             for (char c: seq.toCharArray()) {
                 if (c == '?') {
                     count++;
                 }
             }
-            
+
             Map<Integer, String> params = new TreeMap<>();
             int i;
             for (Field f : fields) {
                 if ((i = seq.indexOf(f.getName())) != -1 && seq.charAt(i - 1) == ' ') {
+                    System.out.println(i + ": " + f.getName());
                     params.put(i, f.getName());
                 }
             }

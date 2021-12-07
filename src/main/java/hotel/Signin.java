@@ -2,9 +2,12 @@ package hotel;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 
@@ -20,6 +23,7 @@ import com.google.gson.Gson;
 
 import hotel.helper.BodyReader;
 import hotel.helper.CORSMiddleware;
+import hotel.helper.HotelJWT;
 import hotel.model.User;
 import hotel.model.dto.UserSignupDTO;
 import hotel.service.UserService;
@@ -91,7 +95,20 @@ public class Signin extends HttpServlet {
                 response.sendError(500, e.toString());
                 return;
             }
-            
+
+            Map<String, Object> claims = new HashMap<>();
+            claims.put("username", uDTO.username);
+            claims.put("name", uDTO.name);
+
+            HotelJWT tokens = HotelJWT.getTokens(claims, getServletContext().getInitParameter("jwt-secret"));
+
+            try (PrintWriter pw = response.getWriter()) {
+                pw.write(gson.toJson(tokens, HotelJWT.class));
+            } catch (Exception e) {
+                response.sendError(501, e.toString());
+                return;
+            }
+            response.setHeader("Content-type", "application/json; charset=UTF-8");
             response.setStatus(201);
     }
 }

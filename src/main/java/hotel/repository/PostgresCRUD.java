@@ -57,7 +57,7 @@ public class PostgresCRUD<T extends ModelSQL> implements ICRUDRepository<T> {
         try{
             Class.forName("org.postgresql.Driver").getDeclaredConstructor().newInstance();
             try (Connection conn = DriverManager.getConnection(url, username, password)){
-                String sql = "INSERT INTO " + model.getTable() + " (";
+                String sql = "INSERT INTO " + model.getTable() + " ( ";
                 List<String> ps = model.placeholders();
                 for (int i = 1; i < ps.size(); i++) {
                     sql += ps.get(i);

@@ -11,7 +11,16 @@ import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
 public class HotelJWT {
-    public static String[] getTokens(Map<String, ?> claims, String secret) {
+
+    private String access_token;
+    private String refresh_token;
+
+    public HotelJWT(String at, String rt) {
+        this.access_token = at;
+        this.refresh_token = rt;
+    }
+    
+    public static HotelJWT getTokens(Map<String, ?> claims, String secret) {
         Algorithm algo = Algorithm.HMAC256(secret);
         
         Date accessExp = new Date();
@@ -21,7 +30,7 @@ public class HotelJWT {
         refreshExp.setTime(refreshExp.getTime() + (long) 8.64e7);
         String refreshToken = JWT.create().withExpiresAt(refreshExp).withPayload(claims).sign(algo);
 
-        return new String[]{accessToken, refreshToken};
+        return new HotelJWT(accessToken, refreshToken);
     }
 
     public static Map<String, Claim> verifyToken(String token, String secret) throws JWTVerificationException {
