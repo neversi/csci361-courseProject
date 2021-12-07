@@ -1,6 +1,7 @@
-package hotel.repository;
+package hotel.repository.postgres;
 
 import hotel.model.ModelSQL;
+import hotel.repository.ICRUDRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,7 @@ public class PostgresCRUD<T extends ModelSQL> implements ICRUDRepository<T> {
             Class.forName("org.postgresql.Driver").getDeclaredConstructor().newInstance();
             try (Connection conn = DriverManager.getConnection(url, username, password)){
                 Statement statement = conn.createStatement();
-                ResultSet resultSet = statement.executeQuery("SELECT * FROM "  + model.getTable());
+                ResultSet resultSet = statement.executeQuery("SELECT * FROM "  + model.tableName());
                 T newModel = (T) model.clone();
                 while(newModel.readResultSet(resultSet)){
                     objects.add(newModel);
@@ -38,7 +39,7 @@ public class PostgresCRUD<T extends ModelSQL> implements ICRUDRepository<T> {
         try{
             Class.forName("org.postgresql.Driver").getDeclaredConstructor().newInstance();
             try (Connection conn = DriverManager.getConnection(url, username, password)){
-                String sql = "SELECT * FROM "  + model.getTable() + " WHERE " + model.placeholders().get(0) + " = ?";
+                String sql = "SELECT * FROM "  + model.tableName() + " WHERE " + model.placeholders().get(0) + " = ?";
                 try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
                     ResultSet result = preparedStatement.executeQuery();
                     while(model.readResultSet(result)) {}
@@ -57,16 +58,16 @@ public class PostgresCRUD<T extends ModelSQL> implements ICRUDRepository<T> {
         try{
             Class.forName("org.postgresql.Driver").getDeclaredConstructor().newInstance();
             try (Connection conn = DriverManager.getConnection(url, username, password)){
-                String sql = "INSERT INTO " + model.getTable() + " ( ";
+                String sql = "INSERT INTO " + model.tableName() + " ( ";
                 List<String> ps = model.placeholders();
-                for (int i = 1; i < ps.size(); i++) {
+                for (int i = 0; i < ps.size(); i++) {
                     sql += ps.get(i);
                     if (i != ps.size() - 1) {
                         sql += ", ";
                     }
                 }
                 sql += ") values (";
-                for (int i = 1; i < ps.size(); i++) {
+                for (int i = 0; i < ps.size(); i++) {
                     sql += "?";
                     if (i != ps.size() - 1) {
                         sql += ", ";
@@ -81,7 +82,6 @@ public class PostgresCRUD<T extends ModelSQL> implements ICRUDRepository<T> {
                     if (count == 0) {
                         throw new Exception("No new row is created");
                     }
-                    // model.readResultSet(result);
                 }
             }
         } catch (Exception e) {

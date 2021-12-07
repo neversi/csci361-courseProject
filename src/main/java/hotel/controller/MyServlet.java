@@ -1,4 +1,4 @@
-package hotel;
+package hotel.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;

@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import hotel.model.User;
 import hotel.repository.UserRepository;
-import hotel.repository.UserRepositoryPostgres;
+import hotel.repository.postgres.UserRepositoryPostgres;
 
 public class UserServiceImpl implements UserService {
     public UserRepository db;

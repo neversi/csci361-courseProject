@@ -1,6 +1,5 @@
 package hotel.repository;
 
-import hotel.model.ModelSQL;
 import java.util.List;
 
 public interface ICRUDRepository<T> {

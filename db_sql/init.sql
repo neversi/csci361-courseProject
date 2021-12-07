@@ -1,14 +1,3 @@
-\c postgres;
-CREATE TABLE userss (
-    id serial,
-    name varchar(100),
-    surname varchar(100),
-    username varchar(40) unique not null,
-    password varchar(250),
-    salt varchar(10),
-    primary key (id, username)
-);
-
 CREATE TABLE Hotel (
   hotel_id integer NOT NULL,
   hotel_name varchar(100),
@@ -87,6 +76,7 @@ password varchar (20) NOT NULL,
 name varchar (50),
 surname varchar (50),
 money_spent integer,
+salt varchar(10),
 primary key (email)
 );
 

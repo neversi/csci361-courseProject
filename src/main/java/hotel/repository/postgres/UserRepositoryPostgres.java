@@ -1,10 +1,11 @@
-package hotel.repository;
+package hotel.repository.postgres;
 
 import java.sql.*;
 import java.util.List;
 import java.util.Optional;
 
 import hotel.model.User;
+import hotel.repository.UserRepository;
 
 public class UserRepositoryPostgres implements UserRepository {
     public PostgresCRUD<User> crud;
@@ -21,7 +22,7 @@ public class UserRepositoryPostgres implements UserRepository {
         try{
             Class.forName("org.postgresql.Driver").getDeclaredConstructor().newInstance();
             try (Connection conn = DriverManager.getConnection(url, username, password)){
-                String sql = "SELECT * FROM "  + u.getTable() + " WHERE username = ?";
+                String sql = "SELECT * FROM "  + u.tableName() + " WHERE email = ?";
                 try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
                     u.setPlaceHolders(preparedStatement);
                     ResultSet result = preparedStatement.executeQuery();
@@ -39,7 +40,7 @@ public class UserRepositoryPostgres implements UserRepository {
             e.printStackTrace(System.err);
             throw new Exception("UserRepositoryPostgres.getUserByName: " + e.toString());
         } 
-        
+        System.out.println(u);
         return Optional.of(u);
     }
 

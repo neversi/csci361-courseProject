@@ -1,4 +1,4 @@
-package hotel;
+package hotel.controller;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -50,7 +50,7 @@ public class Signin extends HttpServlet {
                 response.sendError(401, "Invalid data");
                 return;
             }
-            UserSignupDTO uDTO = null;
+            UserSignupDTO uDTO;
             try {
                 uDTO = gson.fromJson(BodyReader.getBody(request), UserSignupDTO.class);
             } catch (Exception e) {
@@ -59,12 +59,13 @@ public class Signin extends HttpServlet {
             }
             
             User u = new User();
-            u.setName(uDTO.username);
+            u.setUsername(uDTO.username);
+
             try {
                 Optional<User> uo = us.getUserByName(u);
 
                 if (!uo.isEmpty()) {
-                    response.sendError(401, "Such nickname is already exist");
+                    response.sendError(401, "Such email is already exist");
                     return;
                 }
             } catch (Exception e) {
@@ -72,7 +73,7 @@ public class Signin extends HttpServlet {
                 return;
             }
             
-            byte[] array = new byte[7];
+            byte[] array = new byte[15];
             new Random().nextBytes(array);
             String salt = new String(array, Charset.forName("UTF-8"));
             

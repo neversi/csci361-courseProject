@@ -1,4 +1,4 @@
-package hotel;
+package hotel.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -63,7 +63,7 @@ public class LoginServlet extends HttpServlet {
                 Optional<User> uo = us.getUserByName(u);
 
                 if (uo.isEmpty()) {
-                    response.sendError(401, "Such username \"" + username + "\" doesn't exist");
+                    response.sendError(401, "Such email \"" + username + "\" doesn't exist");
                     return;
                 }
                 u = uo.get();
