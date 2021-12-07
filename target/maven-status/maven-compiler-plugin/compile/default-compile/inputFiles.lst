@@ -1,4 +1,5 @@
 /home/abdr/Desktop/projects/NU/csci361-courseProject/src/main/java/hotel/repository/ICRUDRepository.java
+/home/abdr/Desktop/projects/NU/csci361-courseProject/src/main/java/hotel/helper/CORSMiddleware.java
 /home/abdr/Desktop/projects/NU/csci361-courseProject/src/main/java/hotel/repository/UserRepository.java
 /home/abdr/Desktop/projects/NU/csci361-courseProject/src/main/java/hotel/model/User.java
 /home/abdr/Desktop/projects/NU/csci361-courseProject/src/main/java/hotel/LoginServlet.java

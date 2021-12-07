@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 
 import hotel.helper.BodyReader;
+import hotel.helper.CORSMiddleware;
 import hotel.model.User;
 import hotel.model.dto.UserSignupDTO;
 import hotel.service.UserService;
@@ -36,6 +37,7 @@ public class Signin extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+            CORSMiddleware.corsAllow(request, response);
             Gson gson = new Gson();
 
             if (request.getContentLength() < 10) {
