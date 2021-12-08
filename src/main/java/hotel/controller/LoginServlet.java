@@ -20,6 +20,8 @@ import org.apache.commons.codec.binary.Base64;
 
 import hotel.helper.CORSMiddleware;
 import hotel.helper.HotelJWT;
+import hotel.helper.RestError;
+import hotel.helper.RestSuccess;
 import hotel.model.User;
 import hotel.model.dto.TokenUserDTO;
 import hotel.model.dto.UserDTO;
@@ -43,12 +45,12 @@ public class LoginServlet extends HttpServlet {
             Gson gson = new Gson();
             String basicAuth = request.getHeader("Authorization");
             if (basicAuth == null) {
-                response.sendError(401, "Authorization is not provided");
+                RestError.WriteResponse(response, 401, "Authorization is not provided");
                 return;
             }
             String[] authValues = basicAuth.split(" ");
             if (authValues.length != 2 || !authValues[0].equals("Basic")) {
-                response.sendError(401, "Malformed Authorization header provided, Need Basic Auth");
+                RestError.WriteResponse(response, 401, "Malformed Authorization header provided, Need Basic Auth");
                 return;
             }
             String[] decodedInfo = new String(Base64.decodeBase64(authValues[1])).split(":");
@@ -62,12 +64,12 @@ public class LoginServlet extends HttpServlet {
                 Optional<User> uo = us.getUserByName(u);
 
                 if (uo.isEmpty()) {
-                    response.sendError(401, "Such email \"" + username + "\" doesn't exist");
+                    RestError.WriteResponse(response, 401, "Such email \"" + username + "\" doesn't exist");
                     return;
                 }
                 u = uo.get();
             } catch(Exception e) {
-                response.sendError(500, e.toString());
+                RestError.WriteResponse(response, 500, e.toString());
                 return;
             }
             
@@ -94,12 +96,12 @@ public class LoginServlet extends HttpServlet {
             System.out.println(curPwd +" " + u.getPwd());
             try {
                 if (!new String(curPwd).equals(u.getPwd())) {
-                    response.sendError(401, "Incorrect password");
+                    RestError.WriteResponse(response, 401, "Incorrect password");
                     return;
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                response.sendError(500, e.toString());
+                RestError.WriteResponse(response, 500, e.toString());
                 return;
             }
 
@@ -115,13 +117,12 @@ public class LoginServlet extends HttpServlet {
             uDTO.surname = u.getSurname();
 
             TokenUserDTO info = new TokenUserDTO(tokens, uDTO);
-            try (PrintWriter pw = response.getWriter()) {
-                pw.write(gson.toJson(info, TokenUserDTO.class));
+            try {
+                RestSuccess.WriteResponse(response, 200, gson.toJson(info, TokenUserDTO.class));
             } catch (Exception e) {
-                response.sendError(501, e.toString());
+                RestError.WriteResponse(response, 501, e.toString());
                 return;
             }
-            response.setStatus(201);
     }
 
 }

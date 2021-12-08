@@ -17,7 +17,7 @@ public class Hotel extends ModelSQL {
     
     public String[] pKey() {
         return new String[]{
-            "hotel_id"
+            "hotel_id",
         };
     }
 }

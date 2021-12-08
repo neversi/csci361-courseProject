@@ -1,6 +1,7 @@
 /home/abdr/Desktop/projects/NU/csci361-courseProject/src/main/java/hotel/model/RMType.java
 /home/abdr/Desktop/projects/NU/csci361-courseProject/src/main/java/hotel/repository/ICRUDRepository.java
 /home/abdr/Desktop/projects/NU/csci361-courseProject/src/main/java/hotel/helper/CORSMiddleware.java
+/home/abdr/Desktop/projects/NU/csci361-courseProject/src/main/java/hotel/helper/RestSuccess.java
 /home/abdr/Desktop/projects/NU/csci361-courseProject/src/main/java/hotel/repository/postgres/PostgresCRUD.java
 /home/abdr/Desktop/projects/NU/csci361-courseProject/src/main/java/hotel/controller/MyServlet.java
 /home/abdr/Desktop/projects/NU/csci361-courseProject/src/main/java/hotel/repository/UserRepository.java
@@ -10,9 +11,11 @@
 /home/abdr/Desktop/projects/NU/csci361-courseProject/src/main/java/hotel/model/Guest.java
 /home/abdr/Desktop/projects/NU/csci361-courseProject/src/main/java/hotel/model/Hotel.java
 /home/abdr/Desktop/projects/NU/csci361-courseProject/src/main/java/hotel/controller/LoginServlet.java
+/home/abdr/Desktop/projects/NU/csci361-courseProject/src/main/java/hotel/controller/HotelController.java
 /home/abdr/Desktop/projects/NU/csci361-courseProject/src/main/java/hotel/model/RoomPrice.java
 /home/abdr/Desktop/projects/NU/csci361-courseProject/src/main/java/hotel/model/Employee.java
 /home/abdr/Desktop/projects/NU/csci361-courseProject/src/main/java/hotel/repository/postgres/HotelRepositoryPostgres.java
+/home/abdr/Desktop/projects/NU/csci361-courseProject/src/main/java/hotel/service/HotelService.java
 /home/abdr/Desktop/projects/NU/csci361-courseProject/src/main/java/hotel/model/dto/TokenUserDTO.java
 /home/abdr/Desktop/projects/NU/csci361-courseProject/src/main/java/hotel/model/dto/UserSignupDTO.java
 /home/abdr/Desktop/projects/NU/csci361-courseProject/src/main/java/hotel/helper/BodyReader.java
@@ -29,5 +32,7 @@
 /home/abdr/Desktop/projects/NU/csci361-courseProject/src/main/java/hotel/service/UserServiceImpl.java
 /home/abdr/Desktop/projects/NU/csci361-courseProject/src/main/java/hotel/repository/postgres/UserRepositoryPostgres.java
 /home/abdr/Desktop/projects/NU/csci361-courseProject/src/main/java/hotel/model/RoomType.java
+/home/abdr/Desktop/projects/NU/csci361-courseProject/src/main/java/hotel/service/HotelServiceImpl.java
 /home/abdr/Desktop/projects/NU/csci361-courseProject/src/main/java/hotel/helper/HotelJWT.java
 /home/abdr/Desktop/projects/NU/csci361-courseProject/src/main/java/hotel/repository/postgres/Postgres.java
+/home/abdr/Desktop/projects/NU/csci361-courseProject/src/main/java/hotel/helper/RestError.java

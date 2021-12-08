@@ -40,6 +40,26 @@ public class Signin extends HttpServlet {
         rand = new Random(System.nanoTime());
     }
 
+    protected void doOptions(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+                try {
+                RestSuccess.WriteResponse(response, 200, "");
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+                try {
+                RestSuccess.WriteResponse(response, 200, "");
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+    }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
             Gson gson = new Gson();
@@ -110,12 +130,12 @@ public class Signin extends HttpServlet {
 
             uDTO.password = "";
             TokenUserDTO info = new TokenUserDTO(tokens, (UserDTO) uDTO);
-            try (PrintWriter pw = response.getWriter()) {
+            try {
                 String body = gson.toJson(info, TokenUserDTO.class);
                 RestSuccess.WriteResponse(response, 201, body);
             } catch (Exception e) {
                 RestError.WriteResponse(response, 501, e.toString());
                 return;
             }
-    }
+        }
 }

@@ -10,7 +10,7 @@ import javax.sql.rowset.serial.SerialException;
 
 public class RestSuccess {
     public static void WriteResponse(HttpServletResponse response, int sc, String body) throws SerialException, IOException {
-        response.setHeader("Content-type", "application/json; charset=UTF-8");
+        response.setHeader("Content-type", "application/json; charset=utf-8");
         Map<String, String> headers = new HashMap<>();
         headers.putAll(CORSMiddleware.corsAllow());
         for (String k : headers.keySet()) {

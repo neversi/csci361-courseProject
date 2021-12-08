@@ -1,9 +1,9 @@
 CREATE TABLE Hotel (
-  hotel_id integer NOT NULL,
+  hotel_id serial NOT NULL,
   hotel_name varchar(100),
   hotel_address varchar(200),
   PRIMARY KEY (hotel_id),
-  UNIQUE (hotel_name)
+  UNIQUE (hotel_name, hotel_address)
 );
 
 CREATE DOMAIN RMTYPE varchar(10)
@@ -21,14 +21,6 @@ CONSTRAINT DAYSOFWEEK
 CHECK (VALUE IN 
 ( 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'));
 
-
-CREATE TABLE HotelChain (
-  hotel_id integer NOT NULL,
-  hotel_name varchar(100),
-  primary key (hotel_id),
-  foreign key (hotel_id) references Hotel ON UPDATE CASCADE ON DELETE CASCADE,
-  foreign key (hotel_name) references Hotel (hotel_name) ON UPDATE CASCADE ON DELETE CASCADE
-);
 
 CREATE TABLE HotelPhoneNumber (
   hotel_id integer NOT NULL,
@@ -137,62 +129,62 @@ foreign key (employee_id) references Employee ON DELETE CASCADE
 );
 
 
-INSERT INTO Hotel(hotel_id, hotel_name, hotel_address) VALUES
-(800, 'FIZMAT Aqtau', 'KZ-Aqtau-Barsakelmes-21'),
-(801, 'FIZMAT Alakol', 'KZ-Aqchi-Kelmesbarsa-3');
+INSERT INTO Hotel(hotel_name, hotel_address) VALUES
+('FIZMAT Aqtau', 'KZ-Aqtau-Barsakelmes-21'),
+('FIZMAT Alakol', 'KZ-Aqchi-Kelmesbarsa-3');
 
 
 
 
 INSERT INTO HotelPhoneNumber (hotel_id, h_phone_number)  VALUES 
-(800, '87775491193'),
-(800, '87275491194'),
-(800, '87775491195'),
-(801, '87478312256'),
-(801, '87278312255'),
-(801, '87478312257');
+(1, '87775491193'),
+(1, '87275491194'),
+(1, '87775491195'),
+(2, '87478312256'),
+(2, '87278312255'),
+(2, '87478312257');
 
 INSERT INTO Room (hotel_id, room_number, flr, room_type, isempty, cleaned)  VALUES
-(800, 101, 1, 'single', 'no', 'no'),
-(800, 201, 2, 'double', 'yes', 'yes'),
-(801, 202, 1, 'double', 'yes', 'no'),
-(801, 112, 1, 'single', 'yes', 'no');
+(1, 101, 1, 'single', 'no', 'no'),
+(1, 201, 2, 'double', 'yes', 'yes'),
+(2, 202, 1, 'double', 'yes', 'no'),
+(2, 112, 1, 'single', 'yes', 'no');
 
 INSERT INTO RoomType (hotel_id, room_type, size, capacity)  VALUES
-(800, 'single', 20, 1),
-(800, 'double', 50, 2),
-(801, 'single', 30, 1),
-(801, 'double', 60, 2);
+(1, 'single', 20, 1),
+(1, 'double', 50, 2),
+(2, 'single', 30, 1),
+(2, 'double', 60, 2);
 
 INSERT INTO RoomPrice (hotel_id, day_of_week, room_type, price) VALUES
- (800, 'MON', 'single', 120),
- (800, 'TUE', 'single', 120),
- (800, 'WED', 'single', 120),
- (800, 'THU', 'single', 130),
- (800, 'FRI', 'single', 130),
- (800, 'SAT', 'single', 200),
- (800, 'SUN', 'single', 200),
- (800, 'MON', 'double', 220),
- (800, 'TUE', 'double', 220),
- (800, 'WED', 'double', 220),
- (800, 'THU', 'double', 230),
- (800, 'FRI', 'double', 230),
- (800, 'SAT', 'double', 400),
- (800, 'SUN', 'double', 400),
- (801, 'MON', 'single', 100),
- (801, 'TUE', 'single', 100),
- (801, 'WED', 'single', 100),
- (801, 'THU', 'single', 110),
- (801, 'FRI', 'single', 110),
- (801, 'SAT', 'single', 180),
- (801, 'SUN', 'single', 180),
- (801, 'MON', 'double', 200),
- (801, 'TUE', 'double', 200),
- (801, 'WED', 'double', 200),
- (801, 'THU', 'double', 250),
- (801, 'FRI', 'double', 250),
- (801, 'SAT', 'double', 380),
- (801, 'SUN', 'double', 380);
+ (1, 'MON', 'single', 120),
+ (1, 'TUE', 'single', 120),
+ (1, 'WED', 'single', 120),
+ (1, 'THU', 'single', 130),
+ (1, 'FRI', 'single', 130),
+ (1, 'SAT', 'single', 200),
+ (1, 'SUN', 'single', 200),
+ (1, 'MON', 'double', 220),
+ (1, 'TUE', 'double', 220),
+ (1, 'WED', 'double', 220),
+ (1, 'THU', 'double', 230),
+ (1, 'FRI', 'double', 230),
+ (1, 'SAT', 'double', 400),
+ (1, 'SUN', 'double', 400),
+ (2, 'MON', 'single', 100),
+ (2, 'TUE', 'single', 100),
+ (2, 'WED', 'single', 100),
+ (2, 'THU', 'single', 110),
+ (2, 'FRI', 'single', 110),
+ (2, 'SAT', 'single', 180),
+ (2, 'SUN', 'single', 180),
+ (2, 'MON', 'double', 200),
+ (2, 'TUE', 'double', 200),
+ (2, 'WED', 'double', 200),
+ (2, 'THU', 'double', 250),
+ (2, 'FRI', 'double', 250),
+ (2, 'SAT', 'double', 380),
+ (2, 'SUN', 'double', 380);
 
 INSERT INTO Users (email, password, name, surname, money_spent, salt)  VALUES
 ('daniyel@mail.ru', 'dc43e1f7374c2f73f6af13333e54e2', 'Daniyel', 'Zhumankulov', 0, 'default'),
@@ -201,33 +193,33 @@ INSERT INTO Users (email, password, name, surname, money_spent, salt)  VALUES
 ('askar@mail.ru', '45b1782d372e17d057d4812f1d65e9', 'Askar', 'Batzhanov', 0, 'default');
 
 INSERT INTO Guest (hotel_id, guest_id, identification_type, identification_number, address, name, surname, home_phone_number, mobile_phone_number)  VALUES
-(800, 01, 'identity card', 020405068, 'Taraz', 'Torgyn', 'Aidarbek', '05-07-03', '87074505689'),
-(801, 02, 'US passport', 070608596, 'Almaty', 'John', 'Peter', '06-08-06', '87470458857');
+(1, 01, 'identity card', 020405068, 'Taraz', 'Torgyn', 'Aidarbek', '05-07-03', '87074505689'),
+(2, 02, 'US passport', 070608596, 'Almaty', 'John', 'Peter', '06-08-06', '87470458857');
 
 INSERT INTO Reservation (hotel_id, room_number, guest_id, check_in, check_out, day_of_week, total_price)  VALUES
-(800, 101, 01, '2021-11-30', '2021-12-13', 'TUE', 1680),
-(801, 112, 02, '2021-12-08', '2021-12-21', 'MON', 1400);
+(1, 101, 01, '2021-11-30', '2021-12-13', 'TUE', 1680),
+(2, 112, 02, '2021-12-08', '2021-12-21', 'MON', 1400);
 
 INSERT INTO Employee (hotel_id, employee_id, name, surname, position, salary) VALUES
-(800, 01, 'A1', 'B1', 'manager', 400000),
-(800, 02, 'A2', 'B2', 'employee', 200000),
-(800, 03, 'A3', 'B3', 'employee', 200000),
-(800, 04, 'A4', 'B4', 'desk-clerk', 350000),
-(800, 05, 'A5', 'B5', 'desk-clerk', 400000),
-(801, 11, 'AA1', 'BB1', 'employee', 250000),
-(801, 12, 'AA2', 'BB2', 'employee', 200000),
-(801, 13, 'AA3', 'BB3', 'manager', 500000),
-(801, 14, 'AA4', 'BB4', 'desk-clerk', 400000),
-(801, 15, 'AA5', 'BB5', 'desk-clerk', 350000);
+(1, 01, 'A1', 'B1', 'manager', 400000),
+(1, 02, 'A2', 'B2', 'employee', 200000),
+(1, 03, 'A3', 'B3', 'employee', 200000),
+(1, 04, 'A4', 'B4', 'desk-clerk', 350000),
+(1, 05, 'A5', 'B5', 'desk-clerk', 400000),
+(2, 11, 'AA1', 'BB1', 'employee', 250000),
+(2, 12, 'AA2', 'BB2', 'employee', 200000),
+(2, 13, 'AA3', 'BB3', 'manager', 500000),
+(2, 14, 'AA4', 'BB4', 'desk-clerk', 400000),
+(2, 15, 'AA5', 'BB5', 'desk-clerk', 350000);
 
 INSERT INTO WorkingSchedule (hotel_id, employee_id, froom, too)  VALUES
-(800, 01, '08:00:00', '19:00:00'),
-(800, 02, '08:00:00', '17:00:00'),
-(800, 03, '08:00:00', '17:00:00'),
-(800, 04, '08:00:00', '19:00:00'),
-(800, 05, '19:00:00', '08:00:00'),
-(801, 11, '08:00:00', '18:00:00'),
-(801, 12, '08:00:00', '17:00:00'),
-(801, 13, '08:00:00', '19:00:00'),
-(801, 14, '08:00:00', '19:00:00'),
-(801, 15, '19:00:00', '08:00:00');
+(1, 01, '08:00:00', '19:00:00'),
+(1, 02, '08:00:00', '17:00:00'),
+(1, 03, '08:00:00', '17:00:00'),
+(1, 04, '08:00:00', '19:00:00'),
+(1, 05, '19:00:00', '08:00:00'),
+(2, 11, '08:00:00', '18:00:00'),
+(2, 12, '08:00:00', '17:00:00'),
+(2, 13, '08:00:00', '19:00:00'),
+(2, 14, '08:00:00', '19:00:00'),
+(2, 15, '19:00:00', '08:00:00');

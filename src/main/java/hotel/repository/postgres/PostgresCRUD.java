@@ -35,7 +35,7 @@ public class PostgresCRUD<T extends ModelSQL> extends Postgres implements ICRUDR
         try{
             Class.forName("org.postgresql.Driver").getDeclaredConstructor().newInstance();
             try (Connection conn = DriverManager.getConnection(url, username, password)){
-                String sql = "SELECT * FROM "  + model.tableName() + " WHERE " + model.placeholders().get(0) + " = ?";
+                String sql = "SELECT * FROM "  + model.tableName() + " WHERE " + model.pKey()[0] + " = ?";
                 try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
                     ResultSet result = preparedStatement.executeQuery();
                     while(model.readResultSet(result)) {}

@@ -17,15 +17,31 @@ public class HotelServiceImpl implements HotelService {
     }
 
     public List<Hotel> listHotels() { 
-        return new ArrayList<>(); 
+        List<Hotel> hotels = hr.getList(new Hotel());
+
+        return hotels;
     }
 
     public Optional<Hotel> getHotelByName(Hotel hotel) {
-        return Optional.empty();
+        if (hotel.hotel_name.equals("")) {
+            return Optional.empty();
+        }
+        try {
+            Optional<Hotel> newHotel = hr.getHotelByName(hotel);
+            return newHotel;
+        } catch (Exception e) {
+            return Optional.empty();
+        }
     }
 
     public void addHotel(Hotel hotel) {
+        if (hotel.hotel_name.isEmpty()) {
+            return;
+        }
         
+        if (hotel.hotel_address.isEmpty() || hotel.hotel_name.isEmpty()) {
+
+        }
     }
     
 }
