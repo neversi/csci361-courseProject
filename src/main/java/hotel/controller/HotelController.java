@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
@@ -21,6 +22,9 @@ import hotel.helper.BodyReader;
 import hotel.helper.CORSMiddleware;
 import hotel.helper.HotelJWT;
 import hotel.helper.RandomStringGenerator;
+import hotel.helper.RestError;
+import hotel.helper.RestSuccess;
+import hotel.model.Hotel;
 import hotel.model.User;
 import hotel.model.dto.TokenUserDTO;
 import hotel.model.dto.UserDTO;
@@ -46,8 +50,29 @@ public class HotelController extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        String[] hotelName = request.getParameterValues("hotel");
+        String hotelName = request.getParameter("hotel");
 
+        if (hotelName == null) {
+            try {
+                List<Hotel> hotels = hs.listHotels();
+                RestSuccess.WriteResponse(response, 200, new Gson().toJson(hotels));
+            } catch (Exception e) {
+                RestError.WriteResponse(response, 500, e.toString());
+            }
+        } else {
+            try {
+                Hotel hotel = new Hotel();
+                hotel.hotel_name = hotelName;
+                Optional<Hotel> getHotel = hs.getHotelByName(hotel);
+                if (getHotel.isEmpty()) {
+                    RestSuccess.WriteResponse(response, 200, "");
+                } else {
+                    RestSuccess.WriteResponse(response, 200, new Gson().toJson(getHotel));
+                }
+            } catch (Exception e) {
+                RestError.WriteResponse(response, 500, e.toString());
+            }
+        }
         
 
     }

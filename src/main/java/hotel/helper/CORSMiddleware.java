@@ -11,7 +11,7 @@ public class CORSMiddleware {
             Map<String, String> headers = new HashMap<>();
             headers.put("Access-Control-Allow-Origin", "*");
             headers.put("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,PATCH,OPTIONS");
-            headers.put("Access-Control-Allow-Credentials", "true");
+            headers.put("Access-Control-Allow-Headers", "*");
             headers.put("Content-type", "application/json; charset=utf-8");
             // access-control-allow-methods,access-control-allow-origin,content-type
             return headers;
