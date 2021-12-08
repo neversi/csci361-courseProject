@@ -28,7 +28,7 @@ To shutdown:
     Cookies: ["access_token", "refresh_token"]
     {}
 ```
-## /login (POST)
+## /login (POST) !Basic 
 - Request
 ```
     Header: Authorization (Basic)
@@ -39,7 +39,7 @@ To shutdown:
     {}
 ```
 
-## /working schedule (GET) 
+## /working schedule (GET) !Bearer 
 ```
     {
         "schedule": [<Object>]
