@@ -35,6 +35,7 @@ public abstract class ModelSQL implements Serializable, Cloneable {
                 for (Field f: fields) {
                     try {
                         Object o = result.getObject(f.getName());
+                        // System.out.println(o.toString());
                         f.set(this, o);
                     } catch (Exception e) {
                     }

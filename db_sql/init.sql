@@ -75,6 +75,7 @@ primary key (email)
 CREATE TABLE Guest (
   hotel_id integer NOT NULL,
   guest_id integer NOT NULL,
+  email VARCHAR(200),
   identification_type varchar (20),
   identification_number varchar (30),
   address varchar (40),
@@ -84,6 +85,8 @@ CREATE TABLE Guest (
   mobile_phone_number varchar (20),
   primary key (hotel_id, guest_id),
   foreign key (hotel_id) references Hotel ON UPDATE CASCADE ON DELETE CASCADE,
+  foreign key (email) references Users(email) on update cascade on delete cascade,
+  unique (email),
   UNIQUE (guest_id)
 );
 
@@ -107,6 +110,7 @@ CREATE TABLE Employee (
   hotel_id integer NOT NULL,
   employee_id integer,
   email varchar(200) unique,
+  rolle int,
   name varchar(30),
   surname varchar(40),
   position varchar(15),

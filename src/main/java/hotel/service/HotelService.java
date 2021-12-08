@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import hotel.model.Hotel;
+import hotel.model.dto.RoomsDTO;
 
 public interface HotelService {
     List<Hotel> listHotels();

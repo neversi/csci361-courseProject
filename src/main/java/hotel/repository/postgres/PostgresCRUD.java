@@ -19,8 +19,8 @@ public class PostgresCRUD<T extends ModelSQL> extends Postgres implements ICRUDR
             try (Connection conn = DriverManager.getConnection(url, username, password)){
                 Statement statement = conn.createStatement();
                 ResultSet resultSet = statement.executeQuery("SELECT * FROM "  + model.tableName());
-                T newModel = (T) model.clone();
-                while(newModel.readResultSet(resultSet)){
+                while(model.readResultSet(resultSet)){
+                    T newModel = (T) model.clone();
                     objects.add(newModel);
                 }
             }
@@ -37,8 +37,11 @@ public class PostgresCRUD<T extends ModelSQL> extends Postgres implements ICRUDR
             try (Connection conn = DriverManager.getConnection(url, username, password)){
                 String sql = "SELECT * FROM "  + model.tableName() + " WHERE " + model.pKey()[0] + " = ?";
                 try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+                    model.setPlaceHolders(preparedStatement);
                     ResultSet result = preparedStatement.executeQuery();
-                    while(model.readResultSet(result)) {}
+                    if(!model.readResultSet(result)) {
+                        return null;
+                    }
                 }
             }
         } catch (Exception e) {

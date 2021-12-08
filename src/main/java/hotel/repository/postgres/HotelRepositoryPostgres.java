@@ -3,6 +3,7 @@ package hotel.repository.postgres;
 import java.sql.*;
 import java.util.Optional;
 
+
 import hotel.model.Hotel;
 import hotel.repository.HotelRepository;
 
@@ -16,6 +17,7 @@ public class HotelRepositoryPostgres extends PostgresCRUD<Hotel> implements Hote
                     hotel.setPlaceHolders(preparedStatement);
                     ResultSet result = preparedStatement.executeQuery();
                     if(hotel.readResultSet(result)) {
+                        System.out.println("FOIND");
                         return Optional.of(hotel);
                     }
                     return Optional.empty();

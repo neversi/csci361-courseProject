@@ -39,23 +39,49 @@ To shutdown:
     {}
 ```
 
-## /working schedule (GET) !Bearer 
+
+## /rooms (GET)
+ Params: 
+- reserve = {"free", "busy"}
+- hotel = <hotel_id: int>
+
+Request body
 ```
-    {
-        "schedule": [<Object>]
-    }
+{
+    "cin": "yyyy-mm-dd",
+    "cout": "yyyy-mm-dd"
+}
 ```
 
-## /reservations (GET)
+Response body 
 ```
-    {
-        "schedules": [<Object>]
-    }
+ [
+     {
+         "room_number": <int>,
+         "floor": <int>,
+         "type": <string>
+     }, ...
+ ]
 ```
 
-## /reservations (UPDATE)
-```
-    {
+## /hotels (GET)
+Params:
+- hotel: <hotel_name> (Optional)
 
-    }
+Response body:
+```
+if params provided:
+ {
+    "hotel_id": 1,
+    "hotel_name": "FIZMAT Aqtau",
+    "hotel_address": "KZ-Aqtau-Barsakelmes-21"
+ }
+else 
+[
+    {
+        "hotel_id": 1,
+        "hotel_name": "FIZMAT Aqtau",
+        "hotel_address": "KZ-Aqtau-Barsakelmes-21"
+    }, ...
+]
 ```
