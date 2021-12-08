@@ -8,12 +8,8 @@ import java.util.List;
 
 import java.sql.*;
 
-public class PostgresCRUD<T extends ModelSQL> implements ICRUDRepository<T> {
+public class PostgresCRUD<T extends ModelSQL> extends Postgres implements ICRUDRepository<T> {
 
-    private static String url = "jdbc:postgresql://localhost:3006/postgres";
-    private static String username = "postgres";
-    private static String password = "postgres";
-    
     @SuppressWarnings("unchecked")
     public List<T> getList(T model) {
         ArrayList<T> objects = new ArrayList<>();
@@ -52,7 +48,18 @@ public class PostgresCRUD<T extends ModelSQL> implements ICRUDRepository<T> {
         return model;
     }
     public T update(T model) throws Exception {
-        throw new Exception("Not Implemented");
+        try {
+            Class.forName("org.postgresql.Driver").getDeclaredConstructor().newInstance();
+            try (Connection conn = DriverManager.getConnection(url, username, password)){
+                String sql = "SELECT * FROM "  + model.tableName() + " WHERE " + model.placeholders().get(0) + " = ?";
+                try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+                    ResultSet result = preparedStatement.executeQuery();
+                    while(model.readResultSet(result)) {}
+                }
+            }
+        } finally {}
+        
+        return model;
     }
     public T create(T model) throws Exception {
         try{

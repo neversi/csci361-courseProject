@@ -7,15 +7,12 @@ import java.util.Optional;
 import hotel.model.User;
 import hotel.repository.UserRepository;
 
-public class UserRepositoryPostgres implements UserRepository {
-    public PostgresCRUD<User> crud;
-
+public class UserRepositoryPostgres extends PostgresCRUD<User> implements UserRepository {
     private static String url = "jdbc:postgresql://localhost:3006/postgres";
     private static String username = "postgres";
     private static String password = "postgres";
 
     public UserRepositoryPostgres() {
-        crud = new PostgresCRUD<>();
     }
 
     public Optional<User> getUserByName(User u) throws Exception {
@@ -43,11 +40,4 @@ public class UserRepositoryPostgres implements UserRepository {
         System.out.println(u);
         return Optional.of(u);
     }
-
-    public List<User> getList(User model) { return crud.getList(model); }
-    public User getById(User model) {return crud.getById(model); }
-    public User update(User model) throws Exception { return crud.update(model); }
-    public void delete(User model) throws Exception { crud.delete(model); }
-    public User create(User model) throws Exception { return crud.create(model); }
-
 }

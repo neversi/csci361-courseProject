@@ -101,4 +101,6 @@ public abstract class ModelSQL implements Serializable, Cloneable {
             throw new Exception("User.setPlaceHolders:" + e.toString());
         }
     }
+
+    // public abstract String[] pKey();
 }

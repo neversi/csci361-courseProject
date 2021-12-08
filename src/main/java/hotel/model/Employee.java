@@ -9,4 +9,6 @@ public class Employee extends ModelSQL {
     public int salary;
 
     public Employee() {}
+
+    public String[] pKey() { return new String[]{"abdr"}; }
 }

@@ -72,11 +72,11 @@ CREATE TABLE RoomPrice (
 
 CREATE TABLE Users (
 email varchar (200) NOT NULL,
-password varchar (20) NOT NULL,
+password varchar (50) NOT NULL,
 name varchar (50),
 surname varchar (50),
 money_spent integer,
-salt varchar(10),
+salt varchar(20),
 primary key (email)
 );
 
@@ -113,24 +113,27 @@ CREATE TABLE Reservation (
 
 CREATE TABLE Employee (
   hotel_id integer NOT NULL,
-  employee_id integer NOT NULL,
+  employee_id integer,
+  email varchar(200) unique,
   name varchar(30),
   surname varchar(40),
   position varchar(15),
   salary integer,
   primary key (employee_id),
-  foreign key (hotel_id) references Hotel ON UPDATE CASCADE ON DELETE CASCADE,
+  foreign key (hotel_id) references Hotel(hotel_id) ON DELETE CASCADE,
+  foreign key (email) references Users(email) on delete cascade,
   check (salary > 0)
 );
 
 CREATE TABLE WorkingSchedule(
+id serial,
 hotel_id integer NOT NULL,
 employee_id integer NOT NULL,
 froom time,
 too time,
-primary key (hotel_id, employee_id),
-foreign key (hotel_id) references Hotel ON UPDATE CASCADE ON DELETE CASCADE,
-foreign key (employee_id) references Employee ON UPDATE CASCADE ON DELETE CASCADE
+primary key (id),
+foreign key (hotel_id) references Hotel ON DELETE CASCADE,
+foreign key (employee_id) references Employee ON DELETE CASCADE
 );
 
 
