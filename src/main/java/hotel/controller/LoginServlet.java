@@ -40,7 +40,6 @@ public class LoginServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            CORSMiddleware.corsAllow(request, response);
             Gson gson = new Gson();
             String basicAuth = request.getHeader("Authorization");
             if (basicAuth == null) {

@@ -13,7 +13,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
 
 public class AuthMiddleware {
-    public static Map<String, Claim> checkAuth(HttpServletRequest request, HttpServletResponse response, String secret) 
+    public static Map<String, Claim> checkAuth(HttpServletRequest request, String secret) 
         throws ServletException, IOException, JWTVerificationException {
         String token = request.getHeader("Authorization");
         if (token == null) {

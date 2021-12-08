@@ -1,18 +1,13 @@
 package hotel.controller;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
-
-import org.apache.commons.codec.binary.Base64;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -26,6 +21,8 @@ import hotel.helper.BodyReader;
 import hotel.helper.CORSMiddleware;
 import hotel.helper.HotelJWT;
 import hotel.helper.RandomStringGenerator;
+import hotel.helper.RestError;
+import hotel.helper.RestSuccess;
 import hotel.model.User;
 import hotel.model.dto.TokenUserDTO;
 import hotel.model.dto.UserDTO;
@@ -45,7 +42,6 @@ public class Signin extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            CORSMiddleware.corsAllow(request, response);
             Gson gson = new Gson();
 
             if (request.getContentLength() < 10) {
@@ -56,7 +52,7 @@ public class Signin extends HttpServlet {
             try {
                 uDTO = gson.fromJson(BodyReader.getBody(request), UserSignupDTO.class);
             } catch (Exception e) {
-                response.sendError(401, "JSON: " + e);
+                RestError.WriteResponse(response, 401, "JSON" + e);
                 return;
             }
             
@@ -67,11 +63,11 @@ public class Signin extends HttpServlet {
                 Optional<User> uo = us.getUserByName(u);
 
                 if (!uo.isEmpty()) {
-                    response.sendError(401, "Such email is already exist");
+                    RestError.WriteResponse(response, 401, "Such email is already exist");
                     return;
                 }
             } catch (Exception e) {
-                response.sendError(500, e.toString());
+                RestError.WriteResponse(response, 500, e.toString());
                 return;
             }
             
@@ -102,7 +98,7 @@ public class Signin extends HttpServlet {
             try {
                 us.createUser(newUser);
             } catch (Exception e) {
-                response.sendError(500, e.toString());
+                RestError.WriteResponse(response, 500, e.toString());
                 return;
             }
 
@@ -115,11 +111,11 @@ public class Signin extends HttpServlet {
             uDTO.password = "";
             TokenUserDTO info = new TokenUserDTO(tokens, (UserDTO) uDTO);
             try (PrintWriter pw = response.getWriter()) {
-                pw.write(gson.toJson(info, TokenUserDTO.class));
+                String body = gson.toJson(info, TokenUserDTO.class);
+                RestSuccess.WriteResponse(response, 201, body);
             } catch (Exception e) {
-                response.sendError(501, e.toString());
+                RestError.WriteResponse(response, 501, e.toString());
                 return;
             }
-            response.setStatus(201);
     }
 }

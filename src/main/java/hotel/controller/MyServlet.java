@@ -14,6 +14,8 @@ import com.auth0.jwt.interfaces.Claim;
 
 import hotel.helper.AuthMiddleware;
 import hotel.helper.CORSMiddleware;
+import hotel.helper.RestError;
+import hotel.helper.RestSuccess;
 
 @WebServlet(urlPatterns = { "/myservlet" })
 public class MyServlet extends HttpServlet {
@@ -28,20 +30,12 @@ public class MyServlet extends HttpServlet {
         Map<String, Claim> claims = null;
         try {
             String secret = getServletContext().getInitParameter("jwt-secret");
-            claims = AuthMiddleware.checkAuth(request, response, secret);
+            claims = AuthMiddleware.checkAuth(request, secret);
         } catch (Exception e) {
-            response.sendError(401, e.toString());
+            RestError.WriteResponse(response, 401, e.toString());;
             return;
         }
-        CORSMiddleware.corsAllow(request, response);
 
-        String jwtSecret = getServletContext().getInitParameter("jwt-secret");
-        try {
-            AuthMiddleware.checkAuth(request, response, jwtSecret);
-        } catch(Exception e) {
-            response.sendError(401, "Incorrect token");
-            return;
-        }
         String name = request.getParameter("id");
         PrintWriter pw = response.getWriter();
         pw.println("<html> <h1> Hello, " + claims.get("username").asString() + claims.get("name").asString() + "</h1></html>");

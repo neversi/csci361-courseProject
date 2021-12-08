@@ -1,7 +1,6 @@
 package hotel.repository.postgres;
 
 import java.sql.*;
-import java.util.List;
 import java.util.Optional;
 
 import hotel.model.User;
