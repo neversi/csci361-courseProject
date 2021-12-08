@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.sql.rowset.serial.SerialException;
 
 import com.auth0.jwt.interfaces.Claim;
 
@@ -37,8 +38,12 @@ public class MyServlet extends HttpServlet {
         }
 
         String name = request.getParameter("id");
-        PrintWriter pw = response.getWriter();
-        pw.println("<html> <h1> Hello, " + claims.get("username").asString() + claims.get("name").asString() + "</h1></html>");
+        
+        try {
+            RestSuccess.WriteResponse(response, 200, "<html> <h1> Hello, " + claims.get("username").asString() + claims.get("name").asString() + "</h1></html>");
+        } catch (SerialException e) {
+            RestError.WriteResponse(response, 500, e.toString());
+        }
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
