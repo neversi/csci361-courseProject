@@ -7,4 +7,12 @@ public class RoomPrice extends ModelSQL {
     public int price;
 
     public RoomPrice() {}
+
+    public String[] pKey() {
+        return new String[]{
+            "hotel_id",
+            "day_of_week",
+            "room_type"
+        };
+    }
 }

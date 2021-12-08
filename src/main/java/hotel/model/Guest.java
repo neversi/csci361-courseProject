@@ -12,4 +12,12 @@ public class Guest extends ModelSQL {
     public String mobile_phone_number;
 
     public Guest() {}
+
+    public String[] pKey() {
+        return new String[]{
+            "hotel_id",
+            "guest_id"
+        };
+    }
+    
 }

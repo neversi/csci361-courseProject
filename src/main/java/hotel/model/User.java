@@ -57,5 +57,9 @@ public class User extends ModelSQL {
     public String getPwd() { return this.password; }
     public void setPwd(String password) { this.password = password; }
 
-
+    public String[] pKey() {
+        return new String[]{
+            "email"
+        };
+    }
 }

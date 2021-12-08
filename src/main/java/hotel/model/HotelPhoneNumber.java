@@ -8,4 +8,11 @@ public class HotelPhoneNumber extends ModelSQL {
         this.hotel_id = 0;
         this.h_phone_number = "";
     }
+
+    public String[] pKey() {
+        return new String[]{
+            "hotel_id",
+            "room_number"
+        };
+    }
 }

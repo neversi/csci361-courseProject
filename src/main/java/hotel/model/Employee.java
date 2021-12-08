@@ -10,5 +10,9 @@ public class Employee extends ModelSQL {
 
     public Employee() {}
 
-    public String[] pKey() { return new String[]{"abdr"}; }
+    public String[] pKey() {
+        return new String[]{
+            "employee_id"
+        };
+    }
 }

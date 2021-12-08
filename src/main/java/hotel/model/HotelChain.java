@@ -8,6 +8,12 @@ public class HotelChain extends ModelSQL {
         this.hotel_id = 0;
         this.hotel_name = "";
     }
+
+    public String[] pKey() {
+        return new String[]{
+            "hotel_id"
+        };
+    }
 }
 
 

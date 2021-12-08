@@ -9,5 +9,12 @@ public class RoomType extends ModelSQL {
     public RoomType() {
 
     }
+
+    public String[] pKey() {
+        return new String[]{
+            "hotel_id",
+            "room_type"
+        };
+    }
 }
 

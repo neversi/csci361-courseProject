@@ -51,13 +51,34 @@ public class PostgresCRUD<T extends ModelSQL> extends Postgres implements ICRUDR
         try {
             Class.forName("org.postgresql.Driver").getDeclaredConstructor().newInstance();
             try (Connection conn = DriverManager.getConnection(url, username, password)){
-                String sql = "SELECT * FROM "  + model.tableName() + " WHERE " + model.placeholders().get(0) + " = ?";
+                String sql = "UPDATE " + model.tableName() + " SET ";
+                for (String p : model.placeholders()) {
+                    boolean isKey = false;
+                    for (String k : model.pKey()) {
+                        if (p.equals(k)) {
+                            break;
+                        }
+                    }
+                    if (isKey) { continue; }
+
+                    sql += p + " = ?, ";
+                }
+                sql = sql.substring(0, sql.length() - 2);
+                sql += " WHERE ";
+                for (String p : model.pKey()) {
+                    sql += p + " = ? and ";
+                }
+                sql = sql.substring(0, sql.length() - 5);
+                
                 try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
-                    ResultSet result = preparedStatement.executeQuery();
-                    while(model.readResultSet(result)) {}
+                    model.setPlaceHolders(preparedStatement);
+                    int count = preparedStatement.executeUpdate();
                 }
             }
-        } finally {}
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Exception("PostgresCRUD.update: " + e.toString());
+        }
         
         return model;
     }
@@ -99,7 +120,28 @@ public class PostgresCRUD<T extends ModelSQL> extends Postgres implements ICRUDR
         return model;
     }
     public void delete(T model) throws Exception {
-        throw new Exception("Not Implemented");
+        try{
+            Class.forName("org.postgresql.Driver").getDeclaredConstructor().newInstance();
+            try (Connection conn = DriverManager.getConnection(url, username, password)){
+                  
+                String sql = "DELETE FROM " + model.tableName() + " WHERE ";
+                for (String p : model.pKey()) {
+                    sql += p + " = ? and ";
+                }
+                sql = sql.substring(0, sql.length() - 5);
+
+                System.out.println(sql);
+
+                try(PreparedStatement preparedStatement = conn.prepareStatement(sql)){
+                    model.setPlaceHolders(preparedStatement);
+                    preparedStatement.executeUpdate();
+                }
+            }
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+            throw new Exception("PostgresCRUD.delete: " + ex.toString());
+        }
     }
     
 }

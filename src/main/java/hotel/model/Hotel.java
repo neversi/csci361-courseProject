@@ -14,5 +14,11 @@ public class Hotel extends ModelSQL {
         this.hotel_name = "";
         this.hotel_id = 0;
     }
+    
+    public String[] pKey() {
+        return new String[]{
+            "hotel_id"
+        };
+    }
 }
 

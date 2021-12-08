@@ -18,7 +18,8 @@ public class CORSMiddleware {
     public static void corsAllow(HttpServletRequest request, HttpServletResponse response) 
         throws ServletException, IOException {
             response.setHeader("Access-Control-Allow-Origin", "*");
-            response.setHeader("Access-Control-Allow-Methods", "GET, POST, UPDATE");
+            response.setHeader("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,PATCH,OPTIONS");
+            response.setHeader("Access-Control-Allow-Credentials", "true");
             response.setHeader("Content-type", "application/json; charset=UTF-8");
         }
     }

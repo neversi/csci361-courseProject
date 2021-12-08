@@ -9,5 +9,12 @@ public class Room extends ModelSQL {
     public boolean cleaned;
 
     public Room() {}
+
+    public String[] pKey() {
+        return new String[]{
+            "hotel_id",
+            "room_number"
+        };
+    }
     
 }

@@ -102,5 +102,5 @@ public abstract class ModelSQL implements Serializable, Cloneable {
         }
     }
 
-    // public abstract String[] pKey();
+    public abstract String[] pKey();
 }

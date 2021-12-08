@@ -12,4 +12,12 @@ public class Reservation extends ModelSQL {
     public int total_price;
 
     public Reservation() {}
+
+    public String[] pKey() {
+        return new String[]{
+            "hotel_id",
+            "room_number",
+            "guest_id"
+        };
+    }
 }
