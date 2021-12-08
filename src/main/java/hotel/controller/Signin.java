@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
@@ -24,6 +25,7 @@ import com.google.gson.Gson;
 import hotel.helper.BodyReader;
 import hotel.helper.CORSMiddleware;
 import hotel.helper.HotelJWT;
+import hotel.helper.RandomStringGenerator;
 import hotel.model.User;
 import hotel.model.dto.TokenUserDTO;
 import hotel.model.dto.UserDTO;
@@ -73,9 +75,7 @@ public class Signin extends HttpServlet {
                 return;
             }
             
-            byte[] array = new byte[15];
-            new Random().nextBytes(array);
-            String salt = new String(array, Charset.forName("UTF-8"));
+            String salt = RandomStringGenerator.getRandomString(19);
             
             uDTO.password += salt;
 
@@ -88,7 +88,14 @@ public class Signin extends HttpServlet {
 
             byte[] hashPwd = md.digest(uDTO.password.getBytes("UTF-8"));
 
-            uDTO.password = new String(hashPwd);
+            StringBuffer sb = new StringBuffer();
+
+            for (int i = 0; i < hashPwd.length; i++) {
+                String s = Integer.toHexString(0xff & hashPwd[i]);
+                sb.append(s);
+            }
+            
+            uDTO.password = sb.toString();
 
             User newUser = new User(uDTO, salt);
 

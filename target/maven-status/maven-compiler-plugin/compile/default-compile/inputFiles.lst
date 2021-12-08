@@ -21,6 +21,7 @@
 /home/abdr/Desktop/projects/NU/csci361-courseProject/src/main/java/hotel/controller/Signin.java
 /home/abdr/Desktop/projects/NU/csci361-courseProject/src/main/java/hotel/service/UserService.java
 /home/abdr/Desktop/projects/NU/csci361-courseProject/src/main/java/hotel/repository/HotelRepository.java
+/home/abdr/Desktop/projects/NU/csci361-courseProject/src/main/java/hotel/helper/RandomStringGenerator.java
 /home/abdr/Desktop/projects/NU/csci361-courseProject/src/main/java/hotel/model/Room.java
 /home/abdr/Desktop/projects/NU/csci361-courseProject/src/main/java/hotel/model/HotelChain.java
 /home/abdr/Desktop/projects/NU/csci361-courseProject/src/main/java/hotel/model/User.java

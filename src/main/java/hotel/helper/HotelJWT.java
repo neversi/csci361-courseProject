@@ -12,8 +12,10 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 
 public class HotelJWT {
 
-    private String access_token;
-    private String refresh_token;
+    public String access_token;
+    public String refresh_token;
+
+    public HotelJWT() {}
 
     public HotelJWT(String at, String rt) {
         this.access_token = at;

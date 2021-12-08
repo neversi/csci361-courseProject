@@ -85,8 +85,16 @@ public class LoginServlet extends HttpServlet {
 
             byte[] hashPwd = md.digest(password.getBytes("UTF-8"));
 
+            StringBuffer sb = new StringBuffer();
+
+            for (int i = 0; i < hashPwd.length; i++) {
+                String s = Integer.toHexString(0xff & hashPwd[i]);
+                sb.append(s);
+            }
+            String curPwd = sb.toString();
+            System.out.println(curPwd +" " + u.getPwd());
             try {
-                if (!new String(hashPwd).equals(u.getPwd())) {
+                if (!new String(curPwd).equals(u.getPwd())) {
                     response.sendError(401, "Incorrect password");
                     return;
                 }

@@ -194,11 +194,11 @@ INSERT INTO RoomPrice (hotel_id, day_of_week, room_type, price) VALUES
  (801, 'SAT', 'double', 380),
  (801, 'SUN', 'double', 380);
 
-INSERT INTO Users (email, password, name, surname, money_spent)  VALUES
-('daniyel@mail.ru', 'dancho', 'Daniyel', 'Zhumankulov', 0),
-('anar@mail.ru', 'an2000', 'Anar', 'Kuatzhan', 0),
-('moldir@mail.ru', 'mol', 'Moldir', 'Ayazbay', 0),
-('askar@mail.ru', 'ask200', 'Askar', 'Batzhanov', 0);
+INSERT INTO Users (email, password, name, surname, money_spent, salt)  VALUES
+('daniyel@mail.ru', 'dc43e1f7374c2f73f6af13333e54e2', 'Daniyel', 'Zhumankulov', 0, 'default'),
+('anar@mail.ru', 'd47c72f2128d96569f91fb865eb59fe', 'Anar', 'Kuatzhan', 0, 'default'),
+('moldir@mail.ru', '24f26dc9f27bc7ffc49f3bb410cdf971', 'Moldir', 'Ayazbay', 0, 'default'),
+('askar@mail.ru', '45b1782d372e17d057d4812f1d65e9', 'Askar', 'Batzhanov', 0, 'default');
 
 INSERT INTO Guest (hotel_id, guest_id, identification_type, identification_number, address, name, surname, home_phone_number, mobile_phone_number)  VALUES
 (800, 01, 'identity card', 020405068, 'Taraz', 'Torgyn', 'Aidarbek', '05-07-03', '87074505689'),
