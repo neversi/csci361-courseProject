@@ -40,6 +40,26 @@ public class LoginServlet extends HttpServlet {
         us = new UserServiceImpl();
     }
 
+    protected void doOptions(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+                try {
+                RestSuccess.WriteResponse(response, 200, "");
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+                try {
+                RestSuccess.WriteResponse(response, 200, "");
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+    }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
             Gson gson = new Gson();

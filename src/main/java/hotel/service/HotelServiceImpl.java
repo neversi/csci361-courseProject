@@ -38,9 +38,9 @@ public class HotelServiceImpl implements HotelService {
         if (hotel.hotel_name.isEmpty()) {
             return;
         }
-        
-        if (hotel.hotel_address.isEmpty() || hotel.hotel_name.isEmpty()) {
 
+        if (hotel.hotel_address.isEmpty() || hotel.hotel_name.isEmpty()) {
+            
         }
     }
     
