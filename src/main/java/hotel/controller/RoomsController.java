@@ -2,6 +2,7 @@ package hotel.controller;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +20,7 @@ import hotel.helper.LocalDateAdapter;
 import hotel.helper.RestError;
 import hotel.helper.RestSuccess;
 import hotel.model.Hotel;
+import hotel.model.dto.HotelRoomsDTO;
 import hotel.model.dto.RoomReservationDateDTO;
 import hotel.model.dto.RoomsDTO;
 import hotel.repository.HotelRepository;
@@ -32,11 +34,14 @@ import hotel.service.RoomService;
 public class RoomsController extends HttpServlet {
 
     public RoomService rs;
+    public HotelService hs;
     
     public RoomsController() {
         super();
 
         rs = new RoomService(new RoomsRepositoryPostgres());
+        HotelRepository hr = new HotelRepositoryPostgres();
+        this.hs = new HotelServiceImpl(hr);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -49,16 +54,15 @@ public class RoomsController extends HttpServlet {
         String toReserve = request.getParameter("reserve");
         String hotelID = request.getParameter("hotel");
 
-        if (hotelID == null) {
-            RestError.WriteResponse(response, 400, "hotel ID is not provided");
-        }
-
         int hotelId = 0;
 
         try {
-            hotelId = Integer.parseInt(hotelID);
+            if (hotelID != null) {
+                hotelId = Integer.parseInt(hotelID);
+            }
         } catch (Exception e) {
             RestError.WriteResponse(response, 400, e.toString());
+            return;
         }
         
         if (toReserve == null) {
@@ -66,21 +70,38 @@ public class RoomsController extends HttpServlet {
             try {
                 List<RoomsDTO> rooms = rs.getAllRooms(hotelId);
                 RestSuccess.WriteResponse(response, 200, gson.toJson(rooms));
+                return;
             } catch (Exception e) {
                 RestError.WriteResponse(response, 500, e.toString());
+                return;
             }
         } else {
             if (toReserve.equals("free")) {
                 try {
+                    List<HotelRoomsDTO> hotelRooms = new ArrayList<>();
                     RoomReservationDateDTO reservation = new RoomReservationDateDTO();
                     reservation = gson.fromJson(BodyReader.getBody(request), RoomReservationDateDTO.class);
+                    if (hotelId != 0) {
                     reservation.hotel_id = hotelId;
-
-                    List<RoomsDTO> rooms = rs.getFreeRooms(reservation);
-
-                    RestSuccess.WriteResponse(response, 200, gson.toJson(rooms));
-
+                    HotelRoomsDTO hR = new HotelRoomsDTO();
+                    hR.hotel_id = hotelId;
+                    hR.rooms = rs.getFreeRooms(reservation);
+                    hotelRooms.add(hR);
+                    } else {
+                        List<Hotel> hotels = hs.listHotels();
+                        for (Hotel h : hotels) {
+                            System.out.println(h.hotel_address);
+                            reservation.hotel_id = h.hotel_id;
+                            HotelRoomsDTO hR = new HotelRoomsDTO();
+                            hR.hotel_id = h.hotel_id;
+                            hR.rooms = rs.getFreeRooms(reservation);
+                            hotelRooms.add(hR);
+                        }
+                    }
+                    System.out.println(hotelRooms);
+                    RestSuccess.WriteResponse(response, 200, gson.toJson(hotelRooms));
                 } catch (Exception e) {
+                    e.printStackTrace();
                     RestError.WriteResponse(response, 400, e.toString());
                 }
 

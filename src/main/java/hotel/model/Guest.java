@@ -15,6 +15,10 @@ public class Guest extends ModelSQL {
 
     public Guest() {}
 
+    public String tableName() {
+        return "Guest";
+    }
+    
     public String[] pKey() {
         return new String[]{
             "hotel_id",

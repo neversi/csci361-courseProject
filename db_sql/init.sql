@@ -75,7 +75,7 @@ primary key (email)
 CREATE TABLE Guest (
   hotel_id integer NOT NULL,
   guest_id integer NOT NULL,
-  email VARCHAR(200),
+  email VARCHAR(200) not null,
   identification_type varchar (20),
   identification_number varchar (30),
   address varchar (40),
@@ -196,9 +196,9 @@ INSERT INTO Users (email, password, name, surname, money_spent, salt)  VALUES
 ('moldir@mail.ru', '24f26dc9f27bc7ffc49f3bb410cdf971', 'Moldir', 'Ayazbay', 0, 'default'),
 ('askar@mail.ru', '45b1782d372e17d057d4812f1d65e9', 'Askar', 'Batzhanov', 0, 'default');
 
-INSERT INTO Guest (hotel_id, guest_id, identification_type, identification_number, address, name, surname, home_phone_number, mobile_phone_number)  VALUES
-(1, 01, 'identity card', 020405068, 'Taraz', 'Torgyn', 'Aidarbek', '05-07-03', '87074505689'),
-(2, 02, 'US passport', 070608596, 'Almaty', 'John', 'Peter', '06-08-06', '87470458857');
+INSERT INTO Guest (hotel_id, guest_id, identification_type, identification_number, address, name, surname, home_phone_number, mobile_phone_number, email)  VALUES
+(1, 01, 'identity card', 020405068, 'Taraz', 'Daniyel', 'Zhumankulov', '05-07-03', '87074505689', 'daniyel@mail.ru'),
+(2, 02, 'US passport', 070608596, 'Almaty', 'Anar', 'Kuatzhan', '06-08-06', '87470458857', 'anar@mail.ru');
 
 INSERT INTO Reservation (hotel_id, room_number, guest_id, check_in, check_out, day_of_week, total_price)  VALUES
 (1, 101, 01, '2021-11-30', '2021-12-13', 'TUE', 1680),
