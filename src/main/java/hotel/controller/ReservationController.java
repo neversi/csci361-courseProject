@@ -31,6 +31,7 @@ import hotel.model.dto.EmployeeWSDTO;
 import hotel.model.dto.HotelRoomsDTO;
 import hotel.model.dto.RoomReservationDateDTO;
 import hotel.model.dto.RoomsDTO;
+import hotel.model.dto.UpdateReservationDTO;
 import hotel.repository.HotelRepository;
 import hotel.repository.postgres.HotelRepositoryPostgres;
 import hotel.repository.postgres.RoomsRepositoryPostgres;
@@ -134,6 +135,7 @@ public class ReservationController extends HttpServlet {
                 } catch (Exception e) {
                     e.printStackTrace();
                     RestError.WriteResponse(response, 400, e.toString());
+                    return;
                 }
 
                 try {
@@ -145,7 +147,7 @@ public class ReservationController extends HttpServlet {
                 }
     }
 
-    protected void doUpdate(HttpServletRequest request, HttpServletResponse response)
+    protected void doPut(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
                 Map<String, Claim> claims = null;
                 try {
@@ -159,6 +161,29 @@ public class ReservationController extends HttpServlet {
                 position += claims.get("position").asString();
                 if (!(position.equals("desk-clerk"))) {
                     RestError.WriteResponse(response, 401, "Could be access only by desk-clerk");
+                    return;
+                }
+
+                UpdateReservationDTO uDTO = new UpdateReservationDTO();
+                Gson gson = new GsonBuilder()
+                .setPrettyPrinting()
+                .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
+                .create();
+
+                try {
+                    uDTO = gson.fromJson(BodyReader.getBody(request), UpdateReservationDTO.class);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    RestError.WriteResponse(response, 400, e.toString());
+                    return;
+                }
+                
+                try {
+                    Reservation r = this.rs.updateReservation(uDTO);
+                    RestSuccess.WriteResponse(response, 201, gson.toJson(r));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    RestError.WriteResponse(response, 400, e.toString());
                     return;
                 }
 

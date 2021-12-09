@@ -184,10 +184,56 @@ public class ReservationService {
         desiredRoom.hotel_id = oldRes.hotel_id;
 
         List<RoomsDTO> freeRooms = this.roomS.getFreeRooms(desiredRoom);
+        
+        for (RoomsDTO room : freeRooms) {
+            if (room.room_number == uRes.room_number) {
+                oldRes.room_number = uRes.room_number;
+                oldRes.check_in = uRes.cin;
+                oldRes.check_out = uRes.cout;
+                Reservation res = this.rr.update(oldRes);
+                return res;
+            }
+        }
 
+        ArrayList<LocalDate> checkDates = new ArrayList<>();
+
+        if (uRes.room_number == oldRes.room_number) {
+            if (oldRes.check_in.until(uRes.cin, ChronoUnit.DAYS) < 0) {
+                checkDates.add(uRes.cin);
+                checkDates.add(oldRes.check_in);
+            }
+
+            if (oldRes.check_out.until(uRes.cout, ChronoUnit.DAYS) > 0) {
+                checkDates.add(oldRes.check_out);
+                checkDates.add(uRes.cout);
+            }
+
+            int count = 1;
+            System.out.println(checkDates.size());
+            for (int i = 0; i < checkDates.size(); i += 2) {
+                desiredRoom.cin = checkDates.get(i);
+                desiredRoom.cout = checkDates.get(i + 1);
+
+                freeRooms = this.roomS.getFreeRooms(desiredRoom);
+                for (RoomsDTO room : freeRooms) {
+                    if (room.room_number == uRes.room_number) {
+                        count *= 2;
+                        break;
+                    }
+                }
+            }
+
+            if (count >= checkDates.size()) {
+                oldRes.room_number = uRes.room_number;
+                oldRes.check_in = uRes.cin;
+                oldRes.check_out = uRes.cout;
+                Reservation res = this.rr.update(oldRes);
+                return res;
+            }
+        }
         
         
-        return new Reservation();
+        throw new Exception("There is no opportunity to change the reservation data");
     }
 
 }

@@ -59,7 +59,6 @@ public class User extends ModelSQL {
 
     public String[] pKey() {
         return new String[]{
-            "email"
         };
     }
 }

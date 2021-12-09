@@ -106,6 +106,7 @@ public class PostgresCRUD<T extends ModelSQL> extends Postgres implements ICRUDR
                     boolean isKey = false;
                     for (String k : model.pKey()) {
                         if (p.equals(k)) {
+                            isKey = true;
                             break;
                         }
                     }
@@ -123,6 +124,9 @@ public class PostgresCRUD<T extends ModelSQL> extends Postgres implements ICRUDR
                 try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
                     model.setPlaceHolders(preparedStatement);
                     int count = preparedStatement.executeUpdate();
+                    if (count == 0) {
+                        return null;
+                    }
                 }
             }
         } catch (Exception e) {

@@ -77,8 +77,8 @@ public class Signin extends HttpServlet {
             }
             
             User u = new User();
-            u.setUsername(uDTO.username);
-
+            u.email = uDTO.username;
+            System.out.println(u.email);
             try {
                 Optional<User> uo = us.getUserByName(u);
 
@@ -114,7 +114,6 @@ public class Signin extends HttpServlet {
             uDTO.password = sb.toString();
 
             User newUser = new User(uDTO, salt);
-
             try {
                 us.createUser(newUser);
             } catch (Exception e) {
