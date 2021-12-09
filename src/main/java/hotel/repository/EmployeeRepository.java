@@ -1,5 +1,6 @@
-// package hotel.repository;
+package hotel.repository;
 
-// public interface EmployeeRepository extends {
-    
-// }
+import hotel.model.Employee;
+
+public interface EmployeeRepository extends ICRUDRepository<Employee> {
+}

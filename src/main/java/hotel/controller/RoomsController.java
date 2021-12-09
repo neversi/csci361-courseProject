@@ -82,15 +82,14 @@ public class RoomsController extends HttpServlet {
                     RoomReservationDateDTO reservation = new RoomReservationDateDTO();
                     reservation = gson.fromJson(BodyReader.getBody(request), RoomReservationDateDTO.class);
                     if (hotelId != 0) {
-                    reservation.hotel_id = hotelId;
-                    HotelRoomsDTO hR = new HotelRoomsDTO();
-                    hR.hotel_id = hotelId;
-                    hR.rooms = rs.getFreeRooms(reservation);
-                    hotelRooms.add(hR);
+                        reservation.hotel_id = hotelId;
+                        HotelRoomsDTO hR = new HotelRoomsDTO();
+                        hR.hotel_id = hotelId;
+                        hR.rooms = rs.getFreeRooms(reservation);
+                        hotelRooms.add(hR);
                     } else {
                         List<Hotel> hotels = hs.listHotels();
                         for (Hotel h : hotels) {
-                            System.out.println(h.hotel_address);
                             reservation.hotel_id = h.hotel_id;
                             HotelRoomsDTO hR = new HotelRoomsDTO();
                             hR.hotel_id = h.hotel_id;
@@ -109,5 +108,25 @@ public class RoomsController extends HttpServlet {
             if (toReserve.equals("busy")) {
             }
         }
+    }
+
+    protected void doOptions(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+                try {
+                RestSuccess.WriteResponse(response, 200, "");
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+    }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+                try {
+                RestSuccess.WriteResponse(response, 200, "");
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
     }
 }

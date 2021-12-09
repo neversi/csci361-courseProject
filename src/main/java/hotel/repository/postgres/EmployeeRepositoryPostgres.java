@@ -1,5 +1,8 @@
-// package hotel.repository.postgres;
+package hotel.repository.postgres;
 
-// public class EmployeeRepositoryPostgres extends PostgresCRUD<Guest> implements Empl{
+import hotel.model.Employee;
+import hotel.repository.EmployeeRepository;
+
+public class EmployeeRepositoryPostgres extends PostgresCRUD<Employee> implements EmployeeRepository {
     
-// }
+}

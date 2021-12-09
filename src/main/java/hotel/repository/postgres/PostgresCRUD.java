@@ -30,6 +30,31 @@ public class PostgresCRUD<T extends ModelSQL> extends Postgres implements ICRUDR
         
         return objects;
     }
+
+    @SuppressWarnings("unchecked")
+    public List<T> getListByParam(T model, String param) {
+        ArrayList<T> objects = new ArrayList<>();
+
+        try{
+            Class.forName("org.postgresql.Driver").getDeclaredConstructor().newInstance();
+            try (Connection conn = DriverManager.getConnection(url, username, password)){
+                String sql = "SELECT * FROM "  + model.tableName() + " WHERE " + param + " = ?";
+                try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+                    model.setPlaceHolders(preparedStatement);
+                    ResultSet result = preparedStatement.executeQuery();
+                    while(model.readResultSet(result)){
+                        T newModel = (T) model.clone();
+                        objects.add(newModel);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+        } 
+        
+        return objects;
+    }
+
     public T getById(T model) {
         
         try{
@@ -50,6 +75,28 @@ public class PostgresCRUD<T extends ModelSQL> extends Postgres implements ICRUDR
         
         return model;
     }
+
+    public T getOneByParam(T model, String param) {
+        
+        try{
+            Class.forName("org.postgresql.Driver").getDeclaredConstructor().newInstance();
+            try (Connection conn = DriverManager.getConnection(url, username, password)){
+                String sql = "SELECT * FROM "  + model.tableName() + " WHERE " + param + " = ?";
+                try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+                    model.setPlaceHolders(preparedStatement);
+                    ResultSet result = preparedStatement.executeQuery();
+                    if(!model.readResultSet(result)) {
+                        return null;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+        } 
+        
+        return model;
+    }
+
     public T update(T model) throws Exception {
         try {
             Class.forName("org.postgresql.Driver").getDeclaredConstructor().newInstance();

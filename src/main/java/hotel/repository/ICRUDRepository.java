@@ -8,4 +8,6 @@ public interface ICRUDRepository<T> {
     public T update(T model) throws Exception;
     public void delete(T model) throws Exception;
     public T create(T model) throws Exception;
+    public List<T> getListByParam(T model, String param);
+    public T getOneByParam(T model, String param);
 }

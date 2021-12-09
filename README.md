@@ -85,3 +85,21 @@ else
     }, ...
 ]
 ```
+
+## /employees?hotel=<hotel_id>
+
+Response Body
+```
+    [
+        {
+        "hotel_id": 1,
+        "employee_id": 1,
+        "rolle": 0,
+        "name": "A1",
+        "email": "bauka@mail.ru",
+        "surname": "B1",
+        "position": "manager",
+        "salary": 400000
+    }, ...
+    ]
+```

@@ -109,7 +109,7 @@ CREATE TABLE Reservation (
 CREATE TABLE Employee (
   hotel_id integer NOT NULL,
   employee_id integer,
-  email varchar(200) unique,
+  email varchar(200),
   rolle int,
   name varchar(30),
   surname varchar(40),
@@ -194,6 +194,10 @@ INSERT INTO Users (email, password, name, surname, money_spent, salt)  VALUES
 ('daniyel@mail.ru', 'dc43e1f7374c2f73f6af13333e54e2', 'Daniyel', 'Zhumankulov', 0, 'default'),
 ('anar@mail.ru', 'd47c72f2128d96569f91fb865eb59fe', 'Anar', 'Kuatzhan', 0, 'default'),
 ('moldir@mail.ru', '24f26dc9f27bc7ffc49f3bb410cdf971', 'Moldir', 'Ayazbay', 0, 'default'),
+('abdr@mail.ru', 'dc43e1f7374c2f73f6af13333e54e2', 'Abdr', 'Ayazbay', 0, 'default'),
+('bauka@mail.ru', 'dc43e1f7374c2f73f6af13333e54e2', 'Bauka', 'Uzumaki', 0, 'default'),
+('shamauka@mail.ru', 'dc43e1f7374c2f73f6af13333e54e2', 'Shamauka', 'Ayazbay', 0, 'default'),
+('tamauka@mail.ru', 'dc43e1f7374c2f73f6af13333e54e2', 'Tamauka', 'Ayazbay', 0, 'default'),
 ('askar@mail.ru', '45b1782d372e17d057d4812f1d65e9', 'Askar', 'Batzhanov', 0, 'default');
 
 INSERT INTO Guest (hotel_id, guest_id, identification_type, identification_number, address, name, surname, home_phone_number, mobile_phone_number, email)  VALUES
@@ -204,26 +208,26 @@ INSERT INTO Reservation (hotel_id, room_number, guest_id, check_in, check_out, d
 (1, 101, 01, '2021-11-30', '2021-12-13', 'TUE', 1680),
 (2, 112, 02, '2021-12-08', '2021-12-21', 'MON', 1400);
 
-INSERT INTO Employee (hotel_id, employee_id, name, surname, position, salary) VALUES
-(1, 01, 'A1', 'B1', 'manager', 400000),
-(1, 02, 'A2', 'B2', 'employee', 200000),
-(1, 03, 'A3', 'B3', 'employee', 200000),
-(1, 04, 'A4', 'B4', 'desk-clerk', 350000),
-(1, 05, 'A5', 'B5', 'desk-clerk', 400000),
-(2, 11, 'AA1', 'BB1', 'employee', 250000),
-(2, 12, 'AA2', 'BB2', 'employee', 200000),
-(2, 13, 'AA3', 'BB3', 'manager', 500000),
-(2, 14, 'AA4', 'BB4', 'desk-clerk', 400000),
-(2, 15, 'AA5', 'BB5', 'desk-clerk', 350000);
+INSERT INTO Employee (hotel_id, employee_id, name, surname, position, salary, email) VALUES
+(1, 01, 'A1', 'B1', 'manager', 400000, 'bauka@mail.ru'),
+(1, 02, 'A2', 'B2', 'employee', 200000, 'abdr@mail.ru'),
+(1, 03, 'A3', 'B3', 'employee', 200000, 'shamauka@mail.ru'),
+(1, 04, 'A4', 'B4', 'desk-clerk', 350000, 'tamauka@mail.ru'),
+-- (1, 05, 'A5', 'B5', 'desk-clerk', 400000, ''),
+-- (2, 11, 'AA1', 'BB1', 'employee', 250000, ''),
+-- (2, 12, 'AA2', 'BB2', 'employee', 200000, ''),
+-- (2, 13, 'AA3', 'BB3', 'manager', 500000,''),
+-- (2, 14, 'AA4', 'BB4', 'desk-clerk', 400000, ''),
+(2, 15, 'AA5', 'BB5', 'desk-clerk', 350000, 'askar@mail.ru');
 
 INSERT INTO WorkingSchedule (hotel_id, employee_id, froom, too)  VALUES
 (1, 01, '08:00:00', '19:00:00'),
 (1, 02, '08:00:00', '17:00:00'),
 (1, 03, '08:00:00', '17:00:00'),
 (1, 04, '08:00:00', '19:00:00'),
-(1, 05, '19:00:00', '08:00:00'),
-(2, 11, '08:00:00', '18:00:00'),
-(2, 12, '08:00:00', '17:00:00'),
-(2, 13, '08:00:00', '19:00:00'),
-(2, 14, '08:00:00', '19:00:00'),
+-- (1, 05, '19:00:00', '08:00:00'),
+-- (2, 11, '08:00:00', '18:00:00'),
+-- (2, 12, '08:00:00', '17:00:00'),
+-- (2, 13, '08:00:00', '19:00:00'),
+-- (2, 14, '08:00:00', '19:00:00'),
 (2, 15, '19:00:00', '08:00:00');
