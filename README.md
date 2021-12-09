@@ -12,6 +12,10 @@ To run:
 To shutdown:
 `make down`
 
+
+# API 
+URL for [Postman collection](https://www.getpostman.com/collections/f5b8e74c4c9600830c67)
+
 ## /signup (POST) 
 
 - Request
