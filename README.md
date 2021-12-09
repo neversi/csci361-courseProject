@@ -35,8 +35,14 @@ To shutdown:
 ```
 - Response
 ```
-    Cookies: ["access_token", "refresh_token"]
-    {}
+    {
+    "username": "askar@mail.ru",
+    "name": "Askar",
+    "surname": "Batzhanov",
+    "position": "desk-clerk",
+    "access_token": <string>,
+    "refresh_token": <string>
+}
 ```
 
 

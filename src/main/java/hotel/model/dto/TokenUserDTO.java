@@ -3,7 +3,7 @@ package hotel.model.dto;
 import hotel.helper.HotelJWT;
 
 public class TokenUserDTO extends HotelJWT {
-    public String username, name, surname;
+    public String username, name, surname, position;
     public TokenUserDTO(HotelJWT tokens, UserDTO user) {
         super();
         this.access_token = tokens.access_token;
@@ -11,5 +11,6 @@ public class TokenUserDTO extends HotelJWT {
         this.username = user.username;
         this.name = user.name;
         this.surname = user.surname;
+        this.position = user.position;
     }
 }

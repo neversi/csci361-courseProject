@@ -2,6 +2,7 @@ package hotel.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.StackWalker.Option;
 import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,9 +23,11 @@ import hotel.helper.CORSMiddleware;
 import hotel.helper.HotelJWT;
 import hotel.helper.RestError;
 import hotel.helper.RestSuccess;
+import hotel.model.Employee;
 import hotel.model.User;
 import hotel.model.dto.TokenUserDTO;
 import hotel.model.dto.UserDTO;
+import hotel.service.EmployeeService;
 import hotel.service.UserService;
 import hotel.service.UserServiceImpl;
 
@@ -35,9 +38,12 @@ import java.security.NoSuchAlgorithmException;
 public class LoginServlet extends HttpServlet {
     private static final long serialVersionUID = 2L;
     public UserService us;
+    public EmployeeService es;
+
     public LoginServlet() {
         super();
         us = new UserServiceImpl();
+        es = new EmployeeService();
     }
 
     protected void doOptions(HttpServletRequest request, HttpServletResponse response)
@@ -125,9 +131,23 @@ public class LoginServlet extends HttpServlet {
                 return;
             }
 
+            
+            
             Map<String, Object> claims = new HashMap<>();
             claims.put("username", username);
             claims.put("name", u.getName());
+            String position = "";
+            try {
+                Optional<Employee> oE = this.es.getByEmail(username);
+                if (!oE.isEmpty()) {
+                    Employee e = oE.get();
+                    position = e.position;
+                    claims.put("position", e.position);
+                    
+                }
+            } catch (Exception e) {
+                RestError.WriteResponse(response, 500, e.toString());
+            }
 
             HotelJWT tokens = HotelJWT.getTokens(claims, getServletContext().getInitParameter("jwt-secret"));
 
@@ -135,6 +155,7 @@ public class LoginServlet extends HttpServlet {
             uDTO.username = username;
             uDTO.name = u.getName();
             uDTO.surname = u.getSurname();
+            uDTO.position = position;
 
             TokenUserDTO info = new TokenUserDTO(tokens, uDTO);
             try {
