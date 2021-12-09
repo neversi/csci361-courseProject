@@ -7,4 +7,5 @@ import hotel.model.Reservation;
 
 public interface ReservationRepository extends ICRUDRepository<Reservation> {
     List<Reservation> getListFromDate(Reservation res);
+    // Reservation UpdateReservation(Reservation oldRes, Reservation newRes);
 }

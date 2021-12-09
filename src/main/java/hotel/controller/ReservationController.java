@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.servlet.ServletException;
@@ -12,9 +13,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.auth0.jwt.interfaces.Claim;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import hotel.helper.AuthMiddleware;
 import hotel.helper.BodyReader;
 import hotel.helper.LocalDateAdapter;
 import hotel.helper.RestError;
@@ -100,6 +103,22 @@ public class ReservationController extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+                Map<String, Claim> claims = null;
+                try {
+                    String secret = getServletContext().getInitParameter("jwt-secret");
+                    claims = AuthMiddleware.checkAuth(request, secret);
+                } catch (Exception e) {
+                    RestError.WriteResponse(response, 401, e.toString());;
+                    return;
+                }
+                String position = "";
+                position += claims.get("position").asString();
+                if (!(position.equals("") || position.equals("desk-clerk"))) {
+                    RestError.WriteResponse(response, 401, "Could be access only by desk-clerk or user");
+                    return;
+                }
+                
+
                 Gson gson = new GsonBuilder()
                 .setPrettyPrinting()
                 .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
@@ -108,19 +127,41 @@ public class ReservationController extends HttpServlet {
                 CreateReserveDTO crDTO = new CreateReserveDTO();
                 try {
                     crDTO = gson.fromJson(BodyReader.getBody(request), CreateReserveDTO.class);
-
+                    if (position.equals("") && !crDTO.email.equals(claims.get("username").asString())) {
+                        RestError.WriteResponse(response, 401, "Users cannot permission to update token");
+                        return;
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                     RestError.WriteResponse(response, 400, e.toString());
                 }
 
                 try {
-                    CreateReserveResponseDTO resp = this.rs.createReservation(crDTO);
+                    Reservation resp = this.rs.createReservation(crDTO);
                     RestSuccess.WriteResponse(response, 201, gson.toJson(resp));
                 } catch (Exception e) {
                     e.printStackTrace();
                     RestError.WriteResponse(response, 500, e.toString());
                 }
     }
+
+    protected void doUpdate(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+                Map<String, Claim> claims = null;
+                try {
+                    String secret = getServletContext().getInitParameter("jwt-secret");
+                    claims = AuthMiddleware.checkAuth(request, secret);
+                } catch (Exception e) {
+                    RestError.WriteResponse(response, 401, e.toString());;
+                    return;
+                }
+                String position = "";
+                position += claims.get("position").asString();
+                if (!(position.equals("desk-clerk"))) {
+                    RestError.WriteResponse(response, 401, "Could be access only by desk-clerk");
+                    return;
+                }
+
+            }
 
 }
