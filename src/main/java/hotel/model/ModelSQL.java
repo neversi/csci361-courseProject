@@ -85,11 +85,25 @@ public abstract class ModelSQL implements Serializable, Cloneable {
             }
 
             Map<Integer, String> params = new TreeMap<>();
-            int i;
             System.out.println("----- Fields name -----");
             for (Field f : fields) {
+                int i = 0;
+                int prev = 0;
                 System.out.println(f.getName());
-                if ((i = seq.indexOf(f.getName())) != -1 && seq.charAt(i - 1) == ' ') {
+                while (true) {
+                    i = seq.indexOf(f.getName(), prev);
+                    if (i != -1) {
+                        if (i > 0 && seq.charAt(i - 1) == ' ') {
+                            params.put(i, f.getName());
+                            break;
+                        }
+                        System.out.println(seq.substring(i));
+                        prev = i + f.getName().length();
+                    } else {
+                        break;
+                    }
+                }
+                if ((i = seq.indexOf(f.getName(), prev)) != -1 && seq.charAt(i - 1) == ' ') {
                     System.out.println(i + ": " + f.getName());
                     params.put(i, f.getName());
                 }

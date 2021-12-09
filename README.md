@@ -70,7 +70,7 @@ Response body
  ]
 ```
 
-## /hotels (GET)
+## /hotels (GET) 
 Params:
 - hotel: <hotel_name> (Optional)
 
@@ -92,7 +92,7 @@ else
 ]
 ```
 
-## /employees?hotel=<hotel_id>
+## /employees?hotel=<hotel_id> (GET)
 
 Response Body
 ```
@@ -136,5 +136,30 @@ Response Body
     "hotel_id": 1,
     "room_number": 101,
     "total_price": 490
+}
+```
+
+## /reservations (PUT) !Bearer
+Request Body
+```
+{
+    "reservation_id": 1,
+    "room_number": 101,
+    "cin": "2021-12-05",
+    "cout": "2021-12-13"
+}
+```
+
+Response Body
+```
+{
+  "id": 1,
+  "hotel_id": 1,
+  "room_number": 101,
+  "guest_id": 1,
+  "check_in": "2021-12-05",
+  "check_out": "2021-12-13",
+  "day_of_week": "TUE",
+  "total_price": 1680
 }
 ```
