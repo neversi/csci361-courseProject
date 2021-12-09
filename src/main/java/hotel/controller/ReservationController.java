@@ -137,7 +137,7 @@ public class ReservationController extends HttpServlet {
                 }
 
                 try {
-                    Reservation resp = this.rs.createReservation(crDTO);
+                    CreateReserveResponseDTO resp = this.rs.createReservation(crDTO);
                     RestSuccess.WriteResponse(response, 201, gson.toJson(resp));
                 } catch (Exception e) {
                     e.printStackTrace();

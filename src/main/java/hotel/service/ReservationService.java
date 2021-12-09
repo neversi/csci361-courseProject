@@ -87,7 +87,7 @@ public class ReservationService {
         return reservations;
     }
 
-    public Reservation createReservation(CreateReserveDTO cDTO) throws Exception {
+    public CreateReserveResponseDTO createReservation(CreateReserveDTO cDTO) throws Exception {
 
         try {
             Guest guest = new Guest();
@@ -156,23 +156,25 @@ public class ReservationService {
             newcDTO.hotel_id = reserve.hotel_id;
             newcDTO.room_number = reserve.room_number;
             newcDTO.total_price = reserve.total_price;
-            return reserve;
+            newcDTO.name = guest.name;
+            newcDTO.surname = guest.surname;
+            return newcDTO;
             } catch (Exception e) {
             throw new Exception("ReservationService.createReservation: " + e.toString());
         }
     }
 
-    public CreateReserveResponseDTO updateReservation(UpdateReservationDTO uRes) throws Exception {
+    public Reservation updateReservation(UpdateReservationDTO uRes) throws Exception {
 
         Reservation oldRes = new Reservation();
         oldRes.id = uRes.reservation_id;
 
-        try {
-            oldRes = this.rr.getOneByParam(oldRes, "id");
-
-        } finally {}
+        oldRes = this.rr.getOneByParam(oldRes, "id");
+        if (oldRes == null) {
+            throw new Exception("There is no such reservation!");
+        }
         
-        return new CreateReserveResponseDTO();
+        return new Reservation();
     }
 
 }
