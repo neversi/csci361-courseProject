@@ -16,6 +16,8 @@ import hotel.model.User;
 import hotel.model.WeekEnum;
 import hotel.model.dto.CreateReserveDTO;
 import hotel.model.dto.CreateReserveResponseDTO;
+import hotel.model.dto.RoomReservationDateDTO;
+import hotel.model.dto.RoomsDTO;
 import hotel.model.dto.UpdateReservationDTO;
 import hotel.repository.EmployeeRepository;
 import hotel.repository.GuestRepository;
@@ -39,6 +41,7 @@ public class ReservationService {
     public RoomPriceRepository rrr;
     public UserRepository ur;
     public RoomsRepository roomR;
+    public RoomService roomS;
 
     public ReservationService() {
         this.rr = new ReservationRepositoryPostgres();
@@ -46,6 +49,7 @@ public class ReservationService {
         this.ur = new UserRepositoryPostgres();
         this.rrr = new RoomPriceRepositoryPostgres();
         this.roomR = new RoomsRepositoryPostgres();
+        this.roomS = new RoomService(roomR);
     }
 
     public List<Reservation> getUserReservations(String email) throws Exception {
@@ -156,8 +160,8 @@ public class ReservationService {
             newcDTO.hotel_id = reserve.hotel_id;
             newcDTO.room_number = reserve.room_number;
             newcDTO.total_price = reserve.total_price;
-            newcDTO.name = guest.name;
-            newcDTO.surname = guest.surname;
+            newcDTO.name = cDTO.name;
+            newcDTO.surname = cDTO.surname;
             return newcDTO;
             } catch (Exception e) {
             throw new Exception("ReservationService.createReservation: " + e.toString());
@@ -173,6 +177,15 @@ public class ReservationService {
         if (oldRes == null) {
             throw new Exception("There is no such reservation!");
         }
+
+        RoomReservationDateDTO desiredRoom  = new RoomReservationDateDTO();
+        desiredRoom.cin = uRes.cin;
+        desiredRoom.cout = uRes.cout;
+        desiredRoom.hotel_id = oldRes.hotel_id;
+
+        List<RoomsDTO> freeRooms = this.roomS.getFreeRooms(desiredRoom);
+
+        
         
         return new Reservation();
     }
