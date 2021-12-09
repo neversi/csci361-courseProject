@@ -16,5 +16,9 @@ public class Room extends ModelSQL {
             "room_number"
         };
     }
+
+    public String tableName() {
+        return "Room";
+    }
     
 }

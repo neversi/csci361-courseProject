@@ -15,4 +15,8 @@ public class RoomPrice extends ModelSQL {
             "room_type"
         };
     }
+
+    public String tableName() {
+        return "RoomPrice";
+    }
 }

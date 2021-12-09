@@ -74,7 +74,7 @@ primary key (email)
 
 CREATE TABLE Guest (
   hotel_id integer NOT NULL,
-  guest_id integer NOT NULL,
+  guest_id serial NOT NULL,
   email VARCHAR(200) not null,
   identification_type varchar (20),
   identification_number varchar (30),
@@ -91,6 +91,7 @@ CREATE TABLE Guest (
 );
 
 CREATE TABLE Reservation (
+  id serial,
   hotel_id integer NOT NULL,
   room_number integer NOT NULL,
   guest_id integer NOT NULL,
@@ -99,7 +100,7 @@ CREATE TABLE Reservation (
   day_of_week DAYZ,
   total_price integer,
   check (total_price > 0), 
-  primary key (hotel_id, room_number, guest_id),
+  primary key (id),
   foreign key (hotel_id) references Hotel (hotel_id) ON UPDATE CASCADE ON DELETE CASCADE,
   foreign key (room_number) references Room (room_number) ON UPDATE CASCADE ON DELETE CASCADE,
   foreign key (guest_id) references Guest (guest_id) ON UPDATE CASCADE ON DELETE CASCADE,
@@ -206,6 +207,7 @@ INSERT INTO Guest (hotel_id, guest_id, identification_type, identification_numbe
 
 INSERT INTO Reservation (hotel_id, room_number, guest_id, check_in, check_out, day_of_week, total_price)  VALUES
 (1, 101, 01, '2021-11-30', '2021-12-13', 'TUE', 1680),
+(1, 101, 01, '2021-12-13', '2021-12-20', 'WED', 1680),
 (2, 112, 02, '2021-12-08', '2021-12-21', 'MON', 1400);
 
 INSERT INTO Employee (hotel_id, employee_id, name, surname, position, salary, email) VALUES

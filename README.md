@@ -103,3 +103,32 @@ Response Body
     }, ...
     ]
 ```
+
+## /reservations (POST) 
+
+Request Body
+```
+{
+    "hotel_id": 1,
+    "room_number": 101,
+    "email": "daniyel@mail.ru",
+    "check_out": "2021-12-18",
+    "check_in": "2021-12-14",
+    "identification_type": "identity card",
+    "identification_number": "0204050607",
+    "address": "Taraz",
+    "name": "Daniyel",
+    "surname": "Zhumankulov",
+    "home_phone_number": "874742505",
+    "mobile_phone_number": "0505040",
+    "day_of_week": "MON"
+}
+```
+Response Body
+```
+{
+    "hotel_id": 1,
+    "room_number": 101,
+    "total_price": 490
+}
+```

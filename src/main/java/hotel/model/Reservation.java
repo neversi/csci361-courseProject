@@ -3,6 +3,7 @@ package hotel.model;
 import java.time.LocalDate;
 
 public class Reservation extends ModelSQL {
+    public int id;
     public int hotel_id;
     public int room_number;
     public int guest_id;
@@ -13,11 +14,13 @@ public class Reservation extends ModelSQL {
 
     public Reservation() {}
 
+    public String tableName() {
+        return "Reservation";
+    }
+
     public String[] pKey() {
         return new String[]{
-            "hotel_id",
-            "room_number",
-            "guest_id"
+            "id"
         };
     }
 }

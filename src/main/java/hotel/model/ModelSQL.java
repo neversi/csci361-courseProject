@@ -2,9 +2,11 @@ package hotel.model;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -35,11 +37,20 @@ public abstract class ModelSQL implements Serializable, Cloneable {
                 for (Field f: fields) {
                     try {
                         Object o = result.getObject(f.getName());
+                        System.out.println(f.getName() + ": " + o);
+                        if (o instanceof java.sql.Date) {
+                            Date d = (Date) o;
+                            f.set(this, d.toLocalDate());
+                        } else {
+                            f.set(this, o);
+                        }
                         // System.out.println(o.toString());
-                        f.set(this, o);
                     } catch (Exception e) {
+                        e.printStackTrace();
+                        throw new SQLException("readResult: " + e.toString());
                     }
                 }
+                
                 return true;
             }
         } catch (SQLException e) {

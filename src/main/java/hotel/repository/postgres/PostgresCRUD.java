@@ -139,6 +139,15 @@ public class PostgresCRUD<T extends ModelSQL> extends Postgres implements ICRUDR
                 String sql = "INSERT INTO " + model.tableName() + " ( ";
                 List<String> ps = model.placeholders();
                 for (int i = 0; i < ps.size(); i++) {
+                    boolean cont = false;
+                    for (String p: model.pKey()) {
+                        if (p.equals(ps.get(i))) {
+                            cont = true;
+                        }
+                    }
+                    if (cont) {
+                        continue;
+                    }
                     sql += ps.get(i);
                     if (i != ps.size() - 1) {
                         sql += ", ";
@@ -146,6 +155,15 @@ public class PostgresCRUD<T extends ModelSQL> extends Postgres implements ICRUDR
                 }
                 sql += ") values (";
                 for (int i = 0; i < ps.size(); i++) {
+                    boolean cont = false;
+                    for (String p: model.pKey()) {
+                        if (p.equals(ps.get(i))) {
+                            cont = true;
+                        }
+                    }
+                    if (cont) {
+                        continue;
+                    }
                     sql += "?";
                     if (i != ps.size() - 1) {
                         sql += ", ";
