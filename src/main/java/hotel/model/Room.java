@@ -5,8 +5,8 @@ public class Room extends ModelSQL {
     public int room_number;
     public int flr;
     public String room_type;
-    public boolean isempty;
-    public boolean cleaned;
+    public String isempty;
+    public String cleaned;
 
     public Room() {}
 
