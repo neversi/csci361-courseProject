@@ -44,7 +44,7 @@ public class RoomsController extends HttpServlet {
         this.hs = new HotelServiceImpl(hr);
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         Gson gson = new GsonBuilder()
         .setPrettyPrinting()
@@ -120,7 +120,7 @@ public class RoomsController extends HttpServlet {
                 }
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
                 try {
                 RestSuccess.WriteResponse(response, 200, "");

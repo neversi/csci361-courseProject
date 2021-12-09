@@ -21,6 +21,7 @@ import hotel.helper.RestError;
 import hotel.helper.RestSuccess;
 import hotel.model.Employee;
 import hotel.model.Hotel;
+import hotel.model.dto.EmployeeWSDTO;
 import hotel.model.dto.HotelRoomsDTO;
 import hotel.model.dto.RoomReservationDateDTO;
 import hotel.model.dto.RoomsDTO;
@@ -65,9 +66,9 @@ public class EmployeeController extends HttpServlet {
             return;
         }
         System.out.println(hotelId);
-        List<Employee> emps = new ArrayList<>();
+        List<EmployeeWSDTO> emps = new ArrayList<>();
         try {
-            emps = es.getEmployeesByHotel(hotelId);
+            emps = es.getEmployeesTable(hotelId);
         } finally {}
 
         try {
